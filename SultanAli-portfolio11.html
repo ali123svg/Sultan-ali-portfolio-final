@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- ============================================================
+     SULTAN ALI - DATA ANALYST PORTFOLIO
+     This is a single HTML file portfolio website.
+     It has 3 parts:
+       1. HEAD    - page settings and CSS styles
+       2. BODY    - all the visible content
+       3. SCRIPT  - smooth scroll behaviour
+     ============================================================ -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sultan Ali - Data Analyst Portfolio</title>
+
+    <!-- Google Fonts - Two fonts used:
+         Inter    = body text (clean and readable)
+         Outfit   = headings (bold and modern) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        /* ============================================================
+           1. COLOR VARIABLES
+           We store all colors here so it's easy to change them later.
+           Just change the value here and it updates everywhere.
+           ============================================================ */
+        :root {
+            --color-bg-dark:     #0f172a;   /* main dark background */
+            --color-bg-card:     #1e293b;   /* card background */
+            --color-blue:        #3b82f6;   /* primary accent (blue) */
+            --color-purple:      #8b5cf6;   /* secondary accent (purple) */
+            --color-cyan:        #06b6d4;   /* third accent (cyan) */
+            --color-green:       #10b981;   /* green for "available" dot */
+            --color-text-white:  #f1f5f9;   /* main text color */
+            --color-text-light:  #cbd5e1;   /* secondary text color */
+            --color-text-muted:  #94a3b8;   /* muted/grey text */
+            --color-border:      #334155;   /* border/divider color */
+        }
+
+        /* ============================================================
+           2. RESET
+           Removes default margin and padding from all elements.
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* ============================================================
+           3. BODY - Base page styles
+           ============================================================ */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-bg-dark);
+            color: var(--color-text-white);
+            line-height: 1.6;
+            overflow-x: hidden; /* prevents horizontal scroll */
+        }
+
+        /* ============================================================
+           4. BACKGROUND EFFECTS
+           These are fixed layers behind everything - decorative only.
+           ============================================================ */
+
+        /* Soft glowing circles in the background */
+        .bg-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
+            pointer-events: none; /* makes it unclickable */
+            z-index: 0;
+        }
+
+        /* Subtle noise texture on top of glow */
+        .bg-noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ============================================================
+           5. CONTAINER
+           Centers the content and limits max width on large screens.
+           ============================================================ */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1; /* sits above background effects */
+        }
+
+        /* ============================================================
+           6. HEADER & NAVIGATION BAR
+           Sticky at top - stays visible when you scroll.
+           ============================================================ */
+        header {
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(15, 23, 42, 0.85); /* semi-transparent */
+            backdrop-filter: blur(12px);         /* glass blur effect */
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Logo text - gradient color */
+        .logo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--color-blue), var(--color-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Navigation links list */
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        /* Each navigation link */
+        .nav-links a {
+            color: var(--color-text-light);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        /* Underline animation on hover */
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--color-blue), var(--color-purple));
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-text-white);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* ============================================================
+           7. HERO SECTION
+           The big welcome area at the top of the page.
+           ============================================================ */
+        .hero {
+            padding: 8rem 0 6rem;
+        }
+
+        .hero-content {
+            max-width: 900px;
+        }
+
+        /* Green dot badge at top: "Available for opportunities" */
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1.25rem;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 50px;
+            color: var(--color-blue);
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            animation: fadeUp 0.8s ease-out;
+        }
+
+        /* The blinking green dot */
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--color-green);
+            border-radius: 50%;
+            animation: blink 2s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: 0.4; }
+        }
+
+        /* Main heading: "Hi, I'm Sultan Ali" */
+        .hero h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            animation: fadeUp 0.8s ease-out 0.1s both;
+        }
+
+        /* Colorful gradient on "Sultan Ali" text */
+        .gradient-text {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Subtitle line */
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--color-text-light);
+            margin-bottom: 2rem;
+            animation: fadeUp 0.8s ease-out 0.2s both;
+        }
+
+        /* Short description paragraph */
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--color-text-muted);
+            max-width: 700px;
+            margin-bottom: 3rem;
+            animation: fadeUp 0.8s ease-out 0.3s both;
+        }
+
+        /* Fade up animation used on hero elements */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ============================================================
+           8. BUTTONS
+           Two types: solid blue (primary) and outlined (secondary).
+           ============================================================ */
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 4rem;
+            animation: fadeUp 0.8s ease-out 0.4s both;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Solid blue button */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-blue), var(--color-purple));
+            color: white;
+            border: none;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(59, 130, 246, 0.5);
+        }
+
+        /* Outlined button */
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-text-white);
+            border: 2px solid var(--color-border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--color-blue);
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        /* ============================================================
+           9. STATS CARDS (BCA score, projects, efficiency)
+           ============================================================ */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            animation: fadeUp 0.8s ease-out 0.5s both;
+        }
+
+        .stat-card {
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-blue);
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.2);
+        }
+
+        .stat-number {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--color-blue), var(--color-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--color-text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* ============================================================
+           10. SECTION - Shared styles for all sections
+           ============================================================ */
+        section {
+            padding: 6rem 0;
+        }
+
+        .section-header {
+            margin-bottom: 4rem;
+        }
+
+        /* Small label above the section title */
+        .section-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 50px;
+            color: var(--color-blue);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        /* Section main heading */
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--color-text-white);
+            margin-bottom: 1rem;
+        }
+
+        /* Section subtitle paragraph */
+        .section-desc {
+            font-size: 1.1rem;
+            color: var(--color-text-light);
+            max-width: 700px;
+        }
+
+        /* ============================================================
+           11. SKILL CARDS (used in Skills and Education sections)
+           ============================================================ */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Colored top bar on hover */
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-blue), var(--color-purple), var(--color-cyan));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .skill-card:hover::before {
+            opacity: 1;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--color-blue);
+            box-shadow: 0 20px 60px rgba(59, 130, 246, 0.2);
+        }
+
+        .skill-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .skill-card h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--color-text-white);
+            margin-bottom: 1.5rem;
+        }
+
+        /* List of skills inside card */
+        .skill-list {
+            list-style: none;
+        }
+
+        .skill-list li {
+            padding: 0.6rem 0;
+            color: var(--color-text-light);
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: 0.95rem;
+        }
+
+        /* Blue dot before each skill item */
+        .skill-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 6px;
+            background: var(--color-blue);
+            border-radius: 50%;
+        }
+
+        /* ============================================================
+           12. PROJECT SECTION HEADER
+           Each project type (Power BI, Excel, SQL, Dev) has this.
+           ============================================================ */
+        .project-section {
+            border-top: 1px solid var(--color-border);
+        }
+
+        .project-section-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .project-icon {
+            font-size: 3rem;
+        }
+
+        /* Small blue tag above project title */
+        .project-section-tag {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 50px;
+            color: var(--color-blue);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-text-white);
+        }
+
+        /* ============================================================
+           13. PROJECT CARDS
+           ============================================================ */
+        .projects-grid {
+            display: grid;
+            gap: 2.5rem;
+        }
+
+        .project-card {
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        /* Blue left border on hover */
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--color-blue), var(--color-purple));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-card:hover {
+            transform: translateX(8px);
+            border-color: var(--color-blue);
+            box-shadow: 0 20px 60px rgba(59, 130, 246, 0.2);
+        }
+
+        .project-content {
+            padding: 3rem;
+        }
+
+        /* Small tag like "Power BI Dashboard" */
+        .project-tag {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 50px;
+            color: var(--color-blue);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Project title */
+        .project-card h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-text-white);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Project description paragraph */
+        .project-desc {
+            color: var(--color-text-light);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        /* Bullet points for project highlights */
+        .project-points {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .project-points li {
+            padding: 0.6rem 0;
+            color: var(--color-text-light);
+            padding-left: 2rem;
+            position: relative;
+            font-size: 0.95rem;
+        }
+
+        /* Arrow before each point */
+        .project-points li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--color-blue);
+            font-weight: bold;
+        }
+
+        /* Tech tags row like "Power BI | DAX | SQL" */
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-tag {
+            padding: 0.4rem 1rem;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--color-blue);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* GitHub link at bottom of project card */
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--color-blue);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .project-link:hover {
+            color: var(--color-cyan);
+            gap: 0.75rem;
+        }
+
+        /* ============================================================
+           14. CONTACT SECTION
+           ============================================================ */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
+        /* Icon box */
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .contact-item h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            color: var(--color-text-white);
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+        }
+
+        .contact-item a,
+        .contact-item p {
+            color: var(--color-text-light);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .contact-item a:hover {
+            color: var(--color-blue);
+        }
+
+        /* GitHub and LinkedIn icon buttons */
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-white);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-btn:hover {
+            border-color: var(--color-blue);
+            background: rgba(59, 130, 246, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* ============================================================
+           15. FOOTER
+           ============================================================ */
+        footer {
+            padding: 3rem 0;
+            border-top: 1px solid var(--color-border);
+            text-align: center;
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* ============================================================
+           16. RESPONSIVE - for mobile screens
+           ============================================================ */
+        @media (max-width: 768px) {
+            .hero h1       { font-size: 3rem; }
+            .section-title { font-size: 2rem; }
+            .nav-links     { gap: 1rem; font-size: 0.85rem; }
+            .contact-grid  { grid-template-columns: 1fr; }
+            .btn-group     { flex-direction: column; }
+            .stats-grid    { grid-template-columns: 1fr; }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- Background decorative layers -->
+    <div class="bg-glow"></div>
+    <div class="bg-noise"></div>
+
+    <!-- ============================================================
+         HEADER - Navigation bar at the top
+         ============================================================ -->
+    <header>
+        <div class="container">
+            <nav>
+
+                <!-- Logo / Name -->
+                <div class="logo">SULTAN ALI</div>
+
+                <!-- Navigation links - each one jumps to a section -->
+                <ul class="nav-links">
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#skills">Skills</a></li>
+                    <li><a href="#education">Education</a></li>
+                    <li><a href="#powerbi">Power BI</a></li>
+                    <li><a href="#excel">Excel</a></li>
+                    <li><a href="#sql">SQL</a></li>
+                    <li><a href="#development">Dev</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+
+            </nav>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- ============================================================
+             HERO SECTION - First thing visitor sees
+             ============================================================ -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+
+                    <!-- "Available for opportunities" badge -->
+                    <div class="hero-badge">
+                        <span class="status-dot"></span>
+                        Available for opportunities
+                    </div>
+
+                    <!-- Main heading -->
+                    <h1>
+                        Hi, I'm <span class="gradient-text">Sultan Ali</span>
+                    </h1>
+
+                    <!-- Subtitle -->
+                    <p class="hero-subtitle">
+                        Aspiring Data Analyst | Power BI | Excel | SQL
+                    </p>
+
+                    <!-- Short description -->
+                    <p class="hero-description">
+                        I transform complex data into actionable insights through powerful visualizations
+                        and analytics. BCA graduate specializing in Power BI dashboards, Excel analytics,
+                        SQL, and data-driven decision making.
+                    </p>
+
+                    <!-- Call to action buttons -->
+                    <div class="btn-group">
+                        <a href="#powerbi" class="btn btn-primary">
+                            View My Work
+                            <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"/>
+                            </svg>
+                        </a>
+                        <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+                    </div>
+
+                    <!-- 3 quick stats -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number">7.51/10</div>
+                            <div class="stat-label">BCA Graduate 2023</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">6+</div>
+                            <div class="stat-label">Completed Projects</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">60%</div>
+                            <div class="stat-label">Efficiency Improvement</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             ABOUT SECTION
+             ============================================================ -->
+        <section id="about">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-badge">About Me</span>
+                    <h2 class="section-title">Turning Data Into Decisions</h2>
+                    <p class="section-desc">
+                        Detail-oriented Computer Applications graduate with hands-on experience in building
+                        end-to-end data dashboards and software applications. I specialize in transforming
+                        raw data into clear, actionable visual reports that drive business success.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             SKILLS SECTION
+             ============================================================ -->
+        <section id="skills">
+            <div class="container">
+
+                <div class="section-header">
+                    <span class="section-badge">Technical Skills</span>
+                    <h2 class="section-title">Core Competencies</h2>
+                </div>
+
+                <div class="skills-grid">
+
+                    <!-- Skill Card 1: Tools -->
+                    <div class="skill-card">
+                        <span class="skill-icon">📊</span>
+                        <h3>Data Analysis Tools</h3>
+                        <ul class="skill-list">
+                            <li>SQL (Joins, Subqueries, Aggregations)</li>
+                            <li>Excel (Pivot Tables, VLOOKUP, Dashboards)</li>
+                            <li>Power BI (Data Modeling, DAX, Dashboards)</li>
+                        </ul>
+                    </div>
+
+                    <!-- Skill Card 2: Analysis Skills -->
+                    <div class="skill-card">
+                        <span class="skill-icon">🔍</span>
+                        <h3>Data Analysis Skills</h3>
+                        <ul class="skill-list">
+                            <li>Data Cleaning & Preprocessing</li>
+                            <li>Exploratory Data Analysis (EDA)</li>
+                            <li>Data Visualization & Storytelling</li>
+                            <li>Basic Statistics</li>
+                        </ul>
+                    </div>
+
+                    <!-- Skill Card 3: Technical -->
+                    <div class="skill-card">
+                        <span class="skill-icon">⚙️</span>
+                        <h3>Technical & Development</h3>
+                        <ul class="skill-list">
+                            <li>HTML, CSS, JavaScript</li>
+                            <li>Java (OOP, File Handling)</li>
+                            <li>Git & GitHub</li>
+                            <li>VS Code, Eclipse</li>
+                        </ul>
+                    </div>
+
+                    <!-- Skill Card 4: Soft Skills -->
+                    <div class="skill-card">
+                        <span class="skill-icon">🎯</span>
+                        <h3>Soft Skills</h3>
+                        <ul class="skill-list">
+                            <li>Analytical & Problem-Solving Skills</li>
+                            <li>Attention to Detail</li>
+                            <li>Team Collaboration</li>
+                            <li>Effective Communication</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             EDUCATION SECTION
+             ============================================================ -->
+        <section id="education">
+            <div class="container">
+
+                <div class="section-header">
+                    <span class="section-badge">Education</span>
+                    <h2 class="section-title">Academic Background</h2>
+                </div>
+
+                <div class="skills-grid">
+
+                    <!-- Degree Card -->
+                    <div class="skill-card">
+                        <span class="skill-icon">🎓</span>
+                        <h3>Bachelor of Computer Applications</h3>
+                        <p style="color: var(--color-text-light); margin-top: 1rem; line-height: 1.8;">
+                            SMT. Sarala Devi Satish Chandra Agarwal
+                            Government First Grade College (Autonomous)
+                            <br>
+                            <strong style="color: var(--color-blue); font-size: 1.2rem; display: inline-block; margin-top: 0.5rem;">
+                                CGPA: 7.51 / 10 &nbsp;|&nbsp; 2023
+                            </strong>
+                        </p>
+                    </div>
+
+                    <!-- Certifications Card -->
+                    <div class="skill-card">
+                        <span class="skill-icon">📜</span>
+                        <h3>Certifications</h3>
+                        <ul class="skill-list">
+                            <li>Excel Dashboard for Beginners — Microsoft & Simplilearn | Dec 2025</li>
+                            <li>Certified Data Analyst Foundations — Udemy | Dec 2025</li>
+                            <li>Microsoft Office Specialist (Excel & Word) — MICE | 2024</li>
+                            <li>Java Programming — Udemy | 2025</li>
+                            <li>SQL — Udemy | 2024</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             PROJECT 1 — POWER BI
+             ============================================================ -->
+        <section id="powerbi" class="project-section">
+            <div class="container">
+
+                <!-- Section header with icon and title -->
+                <div class="project-section-header">
+                    <div class="project-icon">📊</div>
+                    <div>
+                        <div class="project-section-tag">Data Analytics</div>
+                        <div class="project-section-title">Power BI Project</div>
+                    </div>
+                </div>
+
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-content">
+
+                            <span class="project-tag">Power BI Dashboard</span>
+                            <h3>Sales Dashboard (Power BI)</h3>
+
+                            <p class="project-desc">
+                                Built a complete end-to-end sales dashboard tracking revenue, regional
+                                performance, and product-wise sales trends across Karnataka regions
+                                using Power BI and DAX.
+                            </p>
+
+                            <ul class="project-points">
+                                <li>Total sales divided: South Karnataka (44.71%) and North Karnataka (55.29%)</li>
+                                <li>Consumer segment leads with 67.94%, followed by Corporate (18.4%) and Home Office (13.6%)</li>
+                                <li>Top-selling sub-categories include Chairs, Machines, and Phones</li>
+                                <li>Interactive charts for sales by state, discount, profit, quantity, and city</li>
+                                <li>Implemented DAX for calculated measures and interactive drill-down filtering</li>
+                            </ul>
+
+                            <div class="tech-tags">
+                                <span class="tech-tag">Power BI</span>
+                                <span class="tech-tag">DAX</span>
+                                <span class="tech-tag">Data Modeling</span>
+                                <span class="tech-tag">Interactive Filters</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ============================================================
+             PROJECT 2 — EXCEL
+             ============================================================ -->
+        <section id="excel" class="project-section">
+            <div class="container">
+
+                <div class="project-section-header">
+                    <div class="project-icon">📗</div>
+                    <div>
+                        <div class="project-section-tag">Data Analytics</div>
+                        <div class="project-section-title">Excel Project</div>
+                    </div>
+                </div>
+
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-content">
+
+                            <span class="project-tag">Excel Analytics</span>
+                            <h3>Karnataka Store Sales Dashboard (Excel)</h3>
+
+                            <p class="project-desc">
+                                Analyzed 31,000+ rows of Karnataka store sales data to identify top
+                                categories, customer trends, and regional performance. Built a fully
+                                interactive Excel dashboard with visual insights.
+                            </p>
+
+                            <ul class="project-points">
+                                <li>Analyzed 2025 sales data to identify top categories and customer purchasing trends</li>
+                                <li>Created interactive dashboard comparing sales vs orders and men vs women purchases</li>
+                                <li>Visualized top 10 states by sales contribution and sales channel performance</li>
+                                <li>Performed age-gender demographic analysis to identify key customer segments</li>
+                                <li>Supported data-driven decisions through clear regional performance visuals</li>
+                            </ul>
+
+                            <div class="tech-tags">
+                                <span class="tech-tag">Excel</span>
+                                <span class="tech-tag">Pivot Tables</span>
+                                <span class="tech-tag">Data Cleaning</span>
+                                <span class="tech-tag">Dashboard Design</span>
+                            </div>
+
+                            <a href="https://github.com/ali123svg/Karnataka-Sales-dash-board" target="_blank" class="project-link">
+                                View on GitHub →
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ============================================================
+             PROJECT 3 — SQL
+             ============================================================ -->
+        <section id="sql" class="project-section">
+            <div class="container">
+
+                <div class="project-section-header">
+                    <div class="project-icon">🗄️</div>
+                    <div>
+                        <div class="project-section-tag">Data Analytics</div>
+                        <div class="project-section-title">SQL Project</div>
+                    </div>
+                </div>
+
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-content">
+
+                            <span class="project-tag">SQL Analytics</span>
+                            <h3>Sales Analysis Project (SQL)</h3>
+
+                            <p class="project-desc">
+                                Designed and queried a relational sales database using MySQL to extract
+                                business insights on revenue, customer behavior, and product performance
+                                across Karnataka regions.
+                            </p>
+
+                            <ul class="project-points">
+                                <li>Designed relational database with Customers, Products, and Orders tables</li>
+                                <li>Wrote queries using Joins, Aggregations, and Subqueries for regional analysis</li>
+                                <li>Identified top 5 best-selling products and highest spending customers</li>
+                                <li>Analyzed sales by gender, city, and discount type for business insights</li>
+                                <li>Generated year-end summary: total revenue, units sold, average order value</li>
+                            </ul>
+
+                            <div class="tech-tags">
+                                <span class="tech-tag">MySQL</span>
+                                <span class="tech-tag">SQL Joins</span>
+                                <span class="tech-tag">Aggregations</span>
+                                <span class="tech-tag">Subqueries</span>
+                            </div>
+
+                            <a href="https://github.com/ali123svg/Sales-analysis-SQL" target="_blank" class="project-link">
+                                View on GitHub →
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ============================================================
+             PROJECT 4 — DEVELOPMENT (Java + Web)
+             ============================================================ -->
+        <section id="development" class="project-section">
+            <div class="container">
+
+                <div class="project-section-header">
+                    <div class="project-icon">💻</div>
+                    <div>
+                        <div class="project-section-tag">Development Projects</div>
+                        <div class="project-section-title">Java & Web Applications</div>
+                    </div>
+                </div>
+
+                <div class="projects-grid">
+
+                    <!-- Java Project 1 -->
+                    <div class="project-card">
+                        <div class="project-content">
+
+                            <span class="project-tag">Java Application</span>
+                            <h3>Employee Management System</h3>
+
+                            <p class="project-desc">
+                                Developed a console-based application to manage employee data for up to
+                                100 records with full CRUD operations.
+                            </p>
+
+                            <ul class="project-points">
+                                <li>Applied OOP principles: inheritance, encapsulation, and polymorphism</li>
+                                <li>Implemented Create, Read, Update, Delete (CRUD) operations</li>
+                                <li>Added salary calculation and department-based filtering</li>
+                                <li>Integrated search functionality for quick data retrieval</li>
+                            </ul>
+
+                            <div class="tech-tags">
+                                <span class="tech-tag">Java</span>
+                                <span class="tech-tag">OOP</span>
+                                <span class="tech-tag">File I/O</span>
+                                <span class="tech-tag">Eclipse</span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Java Project 2 -->
+                    <div class="project-card">
+                        <div class="project-content">
+
+                            <span class="project-tag">Java Application</span>
+                            <h3>Pizza Billing System</h3>
+
+                            <p class="project-desc">
+                                Created a console-based ordering system for pizza selection, tax
+                                computation, and total price generation.
+                            </p>
+
+                            <ul class="project-points">
+                                <li>Developed order management with real-time price calculations</li>
+                                <li>Implemented tax computation and total bill generation logic</li>
+                                <li>Applied OOP concepts for modular and maintainable code</li>
+                                <li>Built user-friendly console interface for ordering experience</li>
+                            </ul>
+
+                            <div class="tech-tags">
+                                <span class="tech-tag">Java</span>
+                                <span class="tech-tag">OOP</span>
+                                <span class="tech-tag">Eclipse</span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Web Project -->
+                    <div class="project-card">
+                        <div class="project-content">
+
+                            <span class="project-tag">Web Application</span>
+                            <h3>Event Management System</h3>
+
+                            <p class="project-desc">
+                                Built a dynamic single-page web application for creating and deleting
+                                events with data stored using localStorage API.
+                            </p>
+
+                            <ul class="project-points">
+                                <li>Built dynamic SPA with seamless event creation and deletion</li>
+                                <li>Used localStorage API so data stays after page refresh</li>
+                                <li>Designed responsive and clean UI with modern CSS styling</li>
+                                <li>Created smooth user experience using JavaScript DOM manipulation</li>
+                            </ul>
+
+                            <div class="tech-tags">
+                                <span class="tech-tag">HTML</span>
+                                <span class="tech-tag">CSS</span>
+                                <span class="tech-tag">JavaScript</span>
+                                <span class="tech-tag">localStorage API</span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             CONTACT SECTION
+             ============================================================ -->
+        <section id="contact">
+            <div class="container">
+
+                <div class="section-header">
+                    <span class="section-badge">Get In Touch</span>
+                    <h2 class="section-title">Let's Connect</h2>
+                    <p class="section-desc">
+                        I'm currently seeking entry-level Data Analyst or Business Support roles.
+                        Feel free to reach out for opportunities or collaborations!
+                    </p>
+                </div>
+
+                <div class="contact-grid">
+
+                    <!-- Left side: contact details -->
+                    <div class="contact-info">
+
+                        <!-- Email -->
+                        <div class="contact-item">
+                            <div class="contact-icon">📧</div>
+                            <div>
+                                <h3>Email</h3>
+                                <a href="mailto:sa9449156@gmail.com">sa9449156@gmail.com</a>
+                            </div>
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="contact-item">
+                            <div class="contact-icon">📱</div>
+                            <div>
+                                <h3>Phone</h3>
+                                <a href="tel:+917795384007">+91 7795384007</a>
+                            </div>
+                        </div>
+
+                        <!-- Location -->
+                        <div class="contact-item">
+                            <div class="contact-icon">📍</div>
+                            <div>
+                                <h3>Location</h3>
+                                <p>Bandi mote bangalore road, Bellary</p>
+                            </div>
+                        </div>
+
+                        <!-- GitHub and LinkedIn buttons -->
+                        <div class="social-links">
+
+                            <a href="https://github.com/ali123svg" target="_blank" class="social-btn" title="GitHub">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                </svg>
+                            </a>
+
+                            <a href="https://www.linkedin.com/in/Sultan-ali-12494429a" target="_blank" class="social-btn" title="LinkedIn">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                                </svg>
+                            </a>
+
+                        </div>
+                    </div>
+
+                    <!-- Right side: Career goals card -->
+                    <div>
+                        <div class="skill-card">
+                            <h3 style="margin-bottom: 1.5rem;">Career Goals</h3>
+                            <ul class="skill-list">
+                                <li>Entry-Level Data Analyst</li>
+                                <li>Business Intelligence Analyst</li>
+                                <li>Data Visualization Specialist</li>
+                                <li>Business Support Analyst</li>
+                                <li>Power BI Developer</li>
+                                <li>Analytics & Reporting Specialist</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ============================================================
+         FOOTER
+         ============================================================ -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Sultan Ali. Crafted with passion for data and code.</p>
+        </div>
+    </footer>
+
+    <!-- ============================================================
+         SCRIPT - Smooth scrolling when nav links are clicked
+         ============================================================ -->
+    <script>
+
+        // Select all links that start with "#" (anchor links)
+        document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+
+            link.addEventListener('click', function(e) {
+                e.preventDefault(); // stop the default jump
+
+                // Find the target section
+                var target = document.querySelector(this.getAttribute('href'));
+
+                // Smoothly scroll to it
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+
+        });
+
+    </script>
+
+</body>
+</html>
