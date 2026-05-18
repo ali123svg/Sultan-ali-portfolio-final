@@ -1,1363 +1,1548 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<!-- ============================================================
-     SULTAN ALI - DATA ANALYST PORTFOLIO
-     This is a single HTML file portfolio website.
-     It has 3 parts:
-       1. HEAD    - page settings and CSS styles
-       2. BODY    - all the visible content
-       3. SCRIPT  - smooth scroll behaviour
-     ============================================================ -->
-
+<html lang="en" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sultan Ali - Data Analyst Portfolio</title>
-
-    <!-- Google Fonts - Two fonts used:
-         Inter    = body text (clean and readable)
-         Outfit   = headings (bold and modern) -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <style>
-
-        /* ============================================================
-           1. COLOR VARIABLES
-           We store all colors here so it's easy to change them later.
-           Just change the value here and it updates everywhere.
-           ============================================================ */
-        :root {
-            --color-bg-dark:     #0f172a;   /* main dark background */
-            --color-bg-card:     #1e293b;   /* card background */
-            --color-blue:        #3b82f6;   /* primary accent (blue) */
-            --color-purple:      #8b5cf6;   /* secondary accent (purple) */
-            --color-cyan:        #06b6d4;   /* third accent (cyan) */
-            --color-green:       #10b981;   /* green for "available" dot */
-            --color-text-white:  #f1f5f9;   /* main text color */
-            --color-text-light:  #cbd5e1;   /* secondary text color */
-            --color-text-muted:  #94a3b8;   /* muted/grey text */
-            --color-border:      #334155;   /* border/divider color */
-        }
-
-        /* ============================================================
-           2. RESET
-           Removes default margin and padding from all elements.
-           ============================================================ */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* ============================================================
-           3. BODY - Base page styles
-           ============================================================ */
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--color-bg-dark);
-            color: var(--color-text-white);
-            line-height: 1.6;
-            overflow-x: hidden; /* prevents horizontal scroll */
-        }
-
-        /* ============================================================
-           4. BACKGROUND EFFECTS
-           These are fixed layers behind everything - decorative only.
-           ============================================================ */
-
-        /* Soft glowing circles in the background */
-        .bg-glow {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background:
-                radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 40% 20%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
-            pointer-events: none; /* makes it unclickable */
-            z-index: 0;
-        }
-
-        /* Subtle noise texture on top of glow */
-        .bg-noise {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.03;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        /* ============================================================
-           5. CONTAINER
-           Centers the content and limits max width on large screens.
-           ============================================================ */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            position: relative;
-            z-index: 1; /* sits above background effects */
-        }
-
-        /* ============================================================
-           6. HEADER & NAVIGATION BAR
-           Sticky at top - stays visible when you scroll.
-           ============================================================ */
-        header {
-            padding: 1.5rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: rgba(15, 23, 42, 0.85); /* semi-transparent */
-            backdrop-filter: blur(12px);         /* glass blur effect */
-            border-bottom: 1px solid var(--color-border);
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        /* Logo text - gradient color */
-        .logo {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--color-blue), var(--color-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* Navigation links list */
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        /* Each navigation link */
-        .nav-links a {
-            color: var(--color-text-light);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: color 0.3s ease;
-            position: relative;
-        }
-
-        /* Underline animation on hover */
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--color-blue), var(--color-purple));
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--color-text-white);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        /* ============================================================
-           7. HERO SECTION
-           The big welcome area at the top of the page.
-           ============================================================ */
-        .hero {
-            padding: 8rem 0 6rem;
-        }
-
-        .hero-content {
-            max-width: 900px;
-        }
-
-        /* Green dot badge at top: "Available for opportunities" */
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1.25rem;
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            border-radius: 50px;
-            color: var(--color-blue);
-            font-size: 0.875rem;
-            font-weight: 600;
-            margin-bottom: 2rem;
-            animation: fadeUp 0.8s ease-out;
-        }
-
-        /* The blinking green dot */
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--color-green);
-            border-radius: 50%;
-            animation: blink 2s ease-in-out infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50%       { opacity: 0.4; }
-        }
-
-        /* Main heading: "Hi, I'm Sultan Ali" */
-        .hero h1 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 5rem;
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            animation: fadeUp 0.8s ease-out 0.1s both;
-        }
-
-        /* Colorful gradient on "Sultan Ali" text */
-        .gradient-text {
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #06b6d4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* Subtitle line */
-        .hero-subtitle {
-            font-size: 1.5rem;
-            color: var(--color-text-light);
-            margin-bottom: 2rem;
-            animation: fadeUp 0.8s ease-out 0.2s both;
-        }
-
-        /* Short description paragraph */
-        .hero-description {
-            font-size: 1.1rem;
-            color: var(--color-text-muted);
-            max-width: 700px;
-            margin-bottom: 3rem;
-            animation: fadeUp 0.8s ease-out 0.3s both;
-        }
-
-        /* Fade up animation used on hero elements */
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ============================================================
-           8. BUTTONS
-           Two types: solid blue (primary) and outlined (secondary).
-           ============================================================ */
-        .btn-group {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 4rem;
-            animation: fadeUp 0.8s ease-out 0.4s both;
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            font-size: 1rem;
-            font-weight: 600;
-            text-decoration: none;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        /* Solid blue button */
-        .btn-primary {
-            background: linear-gradient(135deg, var(--color-blue), var(--color-purple));
-            color: white;
-            border: none;
-            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 30px rgba(59, 130, 246, 0.5);
-        }
-
-        /* Outlined button */
-        .btn-secondary {
-            background: transparent;
-            color: var(--color-text-white);
-            border: 2px solid var(--color-border);
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--color-blue);
-            background: rgba(59, 130, 246, 0.1);
-        }
-
-        /* ============================================================
-           9. STATS CARDS (BCA score, projects, efficiency)
-           ============================================================ */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            animation: fadeUp 0.8s ease-out 0.5s both;
-        }
-
-        .stat-card {
-            background: var(--color-bg-card);
-            border: 1px solid var(--color-border);
-            border-radius: 12px;
-            padding: 2rem;
-            transition: all 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--color-blue);
-            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.2);
-        }
-
-        .stat-number {
-            font-family: 'Outfit', sans-serif;
-            font-size: 2.8rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--color-blue), var(--color-cyan));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            color: var(--color-text-muted);
-            font-size: 0.95rem;
-        }
-
-        /* ============================================================
-           10. SECTION - Shared styles for all sections
-           ============================================================ */
-        section {
-            padding: 6rem 0;
-        }
-
-        .section-header {
-            margin-bottom: 4rem;
-        }
-
-        /* Small label above the section title */
-        .section-badge {
-            display: inline-block;
-            padding: 0.4rem 1rem;
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            border-radius: 50px;
-            color: var(--color-blue);
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 1rem;
-        }
-
-        /* Section main heading */
-        .section-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: 3rem;
-            font-weight: 700;
-            color: var(--color-text-white);
-            margin-bottom: 1rem;
-        }
-
-        /* Section subtitle paragraph */
-        .section-desc {
-            font-size: 1.1rem;
-            color: var(--color-text-light);
-            max-width: 700px;
-        }
-
-        /* ============================================================
-           11. SKILL CARDS (used in Skills and Education sections)
-           ============================================================ */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .skill-card {
-            background: var(--color-bg-card);
-            border: 1px solid var(--color-border);
-            border-radius: 16px;
-            padding: 2.5rem;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Colored top bar on hover */
-        .skill-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--color-blue), var(--color-purple), var(--color-cyan));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .skill-card:hover::before {
-            opacity: 1;
-        }
-
-        .skill-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--color-blue);
-            box-shadow: 0 20px 60px rgba(59, 130, 246, 0.2);
-        }
-
-        .skill-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            display: block;
-        }
-
-        .skill-card h3 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: var(--color-text-white);
-            margin-bottom: 1.5rem;
-        }
-
-        /* List of skills inside card */
-        .skill-list {
-            list-style: none;
-        }
-
-        .skill-list li {
-            padding: 0.6rem 0;
-            color: var(--color-text-light);
-            padding-left: 1.5rem;
-            position: relative;
-            font-size: 0.95rem;
-        }
-
-        /* Blue dot before each skill item */
-        .skill-list li::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 6px;
-            height: 6px;
-            background: var(--color-blue);
-            border-radius: 50%;
-        }
-
-        /* ============================================================
-           12. PROJECT SECTION HEADER
-           Each project type (Power BI, Excel, SQL, Dev) has this.
-           ============================================================ */
-        .project-section {
-            border-top: 1px solid var(--color-border);
-        }
-
-        .project-section-header {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid var(--color-border);
-        }
-
-        .project-icon {
-            font-size: 3rem;
-        }
-
-        /* Small blue tag above project title */
-        .project-section-tag {
-            display: inline-block;
-            padding: 0.3rem 0.8rem;
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            border-radius: 50px;
-            color: var(--color-blue);
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.5rem;
-        }
-
-        .project-section-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--color-text-white);
-        }
-
-        /* ============================================================
-           13. PROJECT CARDS
-           ============================================================ */
-        .projects-grid {
-            display: grid;
-            gap: 2.5rem;
-        }
-
-        .project-card {
-            background: var(--color-bg-card);
-            border: 1px solid var(--color-border);
-            border-radius: 16px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        /* Blue left border on hover */
-        .project-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(180deg, var(--color-blue), var(--color-purple));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .project-card:hover::before {
-            opacity: 1;
-        }
-
-        .project-card:hover {
-            transform: translateX(8px);
-            border-color: var(--color-blue);
-            box-shadow: 0 20px 60px rgba(59, 130, 246, 0.2);
-        }
-
-        .project-content {
-            padding: 3rem;
-        }
-
-        /* Small tag like "Power BI Dashboard" */
-        .project-tag {
-            display: inline-block;
-            padding: 0.4rem 1rem;
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            border-radius: 50px;
-            color: var(--color-blue);
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 1.5rem;
-        }
-
-        /* Project title */
-        .project-card h3 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--color-text-white);
-            margin-bottom: 1.5rem;
-        }
-
-        /* Project description paragraph */
-        .project-desc {
-            color: var(--color-text-light);
-            margin-bottom: 2rem;
-            line-height: 1.8;
-            font-size: 1rem;
-        }
-
-        /* Bullet points for project highlights */
-        .project-points {
-            list-style: none;
-            margin-bottom: 2rem;
-        }
-
-        .project-points li {
-            padding: 0.6rem 0;
-            color: var(--color-text-light);
-            padding-left: 2rem;
-            position: relative;
-            font-size: 0.95rem;
-        }
-
-        /* Arrow before each point */
-        .project-points li::before {
-            content: '→';
-            position: absolute;
-            left: 0;
-            color: var(--color-blue);
-            font-weight: bold;
-        }
-
-        /* Tech tags row like "Power BI | DAX | SQL" */
-        .tech-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .tech-tag {
-            padding: 0.4rem 1rem;
-            background: rgba(59, 130, 246, 0.1);
-            color: var(--color-blue);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            border-radius: 6px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        /* GitHub link at bottom of project card */
-        .project-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--color-blue);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-        }
-
-        .project-link:hover {
-            color: var(--color-cyan);
-            gap: 0.75rem;
-        }
-
-        /* ============================================================
-           14. CONTACT SECTION
-           ============================================================ */
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-        }
-
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        .contact-item {
-            display: flex;
-            gap: 1.5rem;
-            align-items: flex-start;
-        }
-
-        /* Icon box */
-        .contact-icon {
-            width: 50px;
-            height: 50px;
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            flex-shrink: 0;
-        }
-
-        .contact-item h3 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.1rem;
-            color: var(--color-text-white);
-            margin-bottom: 0.4rem;
-            font-weight: 600;
-        }
-
-        .contact-item a,
-        .contact-item p {
-            color: var(--color-text-light);
-            text-decoration: none;
-            font-size: 0.95rem;
-            transition: color 0.3s ease;
-        }
-
-        .contact-item a:hover {
-            color: var(--color-blue);
-        }
-
-        /* GitHub and LinkedIn icon buttons */
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .social-btn {
-            width: 50px;
-            height: 50px;
-            background: var(--color-bg-card);
-            border: 1px solid var(--color-border);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--color-text-white);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .social-btn:hover {
-            border-color: var(--color-blue);
-            background: rgba(59, 130, 246, 0.1);
-            transform: translateY(-3px);
-        }
-
-        /* ============================================================
-           15. FOOTER
-           ============================================================ */
-        footer {
-            padding: 3rem 0;
-            border-top: 1px solid var(--color-border);
-            text-align: center;
-            color: var(--color-text-muted);
-            font-size: 0.9rem;
-        }
-
-        /* ============================================================
-           16. RESPONSIVE - for mobile screens
-           ============================================================ */
-        @media (max-width: 768px) {
-            .hero h1       { font-size: 3rem; }
-            .section-title { font-size: 2rem; }
-            .nav-links     { gap: 1rem; font-size: 0.85rem; }
-            .contact-grid  { grid-template-columns: 1fr; }
-            .btn-group     { flex-direction: column; }
-            .stats-grid    { grid-template-columns: 1fr; }
-        }
-
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sultan Ali — Data Analyst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════
+   CSS VARIABLES
+═══════════════════════════════════════════════════ */
+:root {
+  --bg:        #f4f5f7;
+  --surface:   #ffffff;
+  --surface2:  #f0f1f4;
+  --surface3:  #e8eaee;
+  --border:    #dde1e7;
+  --border2:   #c8cdd6;
+
+  --ink:       #0a0e1a;
+  --ink2:      #2c3347;
+  --ink3:      #5c6478;
+  --ink4:      #9099ad;
+
+  --blue:      #1a56db;
+  --blue-bg:   #eef2ff;
+  --blue-bdr:  #c7d4fa;
+  --blue-dark: #1544b8;
+
+  --green:     #0f9b58;
+  --green-bg:  #ecfdf5;
+  --green-bdr: #a7f3d0;
+
+  --red:       #dc2626;
+  --amber:     #d97706;
+
+  --nav-h:     56px;
+  --r:         10px;
+  --r2:        7px;
+  --r3:        999px;
+
+  --shadow1: 0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --shadow2: 0 4px 16px rgba(0,0,0,.08);
+  --shadow3: 0 12px 40px rgba(0,0,0,.12);
+  --shadow4: 0 20px 60px rgba(0,0,0,.16);
+}
+
+[data-theme="dark"] {
+  --bg:       #0d1117;
+  --surface:  #161b22;
+  --surface2: #1c2330;
+  --surface3: #232d3f;
+  --border:   #2d3748;
+  --border2:  #3d4a5c;
+
+  --ink:      #e6edf3;
+  --ink2:     #b8c0cc;
+  --ink3:     #7d8799;
+  --ink4:     #4e5768;
+
+  --blue:     #5b8dee;
+  --blue-bg:  rgba(91,141,238,.1);
+  --blue-bdr: rgba(91,141,238,.25);
+  --blue-dark:#4a7be0;
+
+  --green:    #3fb950;
+  --green-bg: rgba(63,185,80,.1);
+  --green-bdr:rgba(63,185,80,.25);
+
+  --shadow1: 0 1px 3px rgba(0,0,0,.3);
+  --shadow2: 0 4px 16px rgba(0,0,0,.4);
+  --shadow3: 0 12px 40px rgba(0,0,0,.5);
+  --shadow4: 0 20px 60px rgba(0,0,0,.6);
+}
+
+/* ═══════════════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════════════ */
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;font-size:16px;}
+body{
+  font-family:'Sora',sans-serif;
+  background:var(--bg);color:var(--ink2);
+  line-height:1.65;overflow-x:hidden;
+  transition:background .25s,color .25s;
+}
+
+/* ═══════════════════════════════════════════════════
+   SCROLL PROGRESS BAR (top of page)
+═══════════════════════════════════════════════════ */
+#progress-bar{
+  position:fixed;top:0;left:0;height:3px;width:0%;
+  background:linear-gradient(90deg,var(--blue),#60a5fa);
+  z-index:9999;transition:width .1s linear;
+  box-shadow:0 0 8px rgba(26,86,219,.5);
+}
+
+/* ═══════════════════════════════════════════════════
+   TOAST NOTIFICATION
+═══════════════════════════════════════════════════ */
+#toast{
+  position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(80px);
+  background:var(--ink);color:#fff;padding:.7rem 1.4rem;
+  border-radius:var(--r3);font-size:.82rem;font-weight:600;
+  box-shadow:var(--shadow3);z-index:9998;
+  opacity:0;transition:all .3s cubic-bezier(.4,0,.2,1);pointer-events:none;
+  display:flex;align-items:center;gap:.55rem;white-space:nowrap;
+}
+[data-theme="dark"] #toast{background:var(--surface3);border:1px solid var(--border);}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ═══════════════════════════════════════════════════
+   KEYBOARD SHORTCUT MODAL
+═══════════════════════════════════════════════════ */
+.modal-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.55);z-index:9000;
+  backdrop-filter:blur(4px);align-items:center;justify-content:center;
+}
+.modal-overlay.on{display:flex;}
+.modal-box{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:16px;width:min(480px,92vw);max-height:80vh;overflow-y:auto;
+  box-shadow:var(--shadow4);animation:slideUp .25s ease;
+}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-hdr{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);
+}
+.modal-hdr h3{font-size:1rem;font-weight:700;color:var(--ink);}
+.modal-close{
+  background:var(--surface2);border:1px solid var(--border);
+  color:var(--ink3);border-radius:6px;width:28px;height:28px;
+  cursor:pointer;font-size:.95rem;display:flex;align-items:center;justify-content:center;
+}
+.modal-close:hover{background:#fee2e2;color:#dc2626;}
+.modal-body{padding:1.25rem 1.5rem;}
+.shortcut-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:.55rem 0;border-bottom:1px solid var(--border);font-size:.875rem;
+}
+.shortcut-row:last-child{border-bottom:none;}
+.shortcut-desc{color:var(--ink2);}
+.shortcut-keys{display:flex;gap:.35rem;}
+.kbd{
+  display:inline-flex;align-items:center;justify-content:center;
+  background:var(--surface2);border:1px solid var(--border2);
+  border-radius:5px;padding:.15rem .55rem;font-size:.75rem;
+  font-family:'JetBrains Mono',monospace;color:var(--ink2);
+  box-shadow:0 1px 0 var(--border2);font-weight:500;
+}
+
+/* ═══════════════════════════════════════════════════
+   MAIN NAVBAR
+═══════════════════════════════════════════════════ */
+#navbar{
+  background:var(--surface);border-bottom:1px solid var(--border);
+  position:sticky;top:3px;z-index:800;
+  box-shadow:var(--shadow1);transition:background .25s;
+}
+.nav-inner{
+  max-width:1280px;margin:0 auto;padding:0 1.5rem;
+  height:var(--nav-h);display:flex;align-items:center;gap:.75rem;
+}
+
+/* hamburger */
+.hamburger{
+  display:flex;flex-direction:column;justify-content:center;gap:4.5px;
+  width:36px;height:36px;background:transparent;border:1px solid var(--border);
+  border-radius:var(--r2);cursor:pointer;padding:8px;flex-shrink:0;
+  transition:all .2s;
+}
+.hamburger:hover{background:var(--surface2);border-color:var(--blue);}
+.hamburger span{
+  display:block;height:1.5px;background:var(--ink3);
+  border-radius:2px;transition:all .25s;
+}
+.hamburger.active span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+.hamburger.active span:nth-child(2){opacity:0;transform:scaleX(0);}
+.hamburger.active span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+
+.logo-area{display:flex;align-items:center;gap:.6rem;flex-shrink:0;}
+.logo-dot{
+  width:32px;height:32px;background:var(--blue);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.85rem;font-weight:800;color:#fff;font-family:'Lora',serif;
+}
+.logo-name{
+  font-family:'Lora',serif;font-weight:700;font-size:1.1rem;
+  color:var(--ink);letter-spacing:-.01em;
+}
+.logo-name em{color:var(--blue);font-style:normal;}
+
+/* search */
+.nav-search{
+  flex:1;max-width:320px;position:relative;margin-left:.5rem;
+}
+.nav-search input{
+  width:100%;background:var(--surface2);border:1px solid var(--border);
+  border-radius:var(--r3);padding:.42rem .9rem .42rem 2.3rem;
+  font-size:.82rem;color:var(--ink);font-family:'Sora',sans-serif;
+  outline:none;transition:all .2s;
+}
+.nav-search input::placeholder{color:var(--ink4);}
+.nav-search input:focus{
+  background:var(--surface);border-color:var(--blue);
+  box-shadow:0 0 0 3px var(--blue-bg);
+}
+.nav-search .si{
+  position:absolute;left:.78rem;top:50%;transform:translateY(-50%);
+  font-size:.82rem;pointer-events:none;color:var(--ink4);
+}
+.nav-search .sk{
+  position:absolute;right:.75rem;top:50%;transform:translateY(-50%);
+  font-size:.68rem;font-family:'JetBrains Mono',monospace;
+  color:var(--ink4);background:var(--surface3);border:1px solid var(--border);
+  border-radius:4px;padding:.1rem .4rem;pointer-events:none;
+}
+.search-drop{
+  display:none;position:absolute;top:calc(100% + 6px);left:0;right:0;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r);box-shadow:var(--shadow3);z-index:600;
+  max-height:280px;overflow-y:auto;
+}
+.search-drop.on{display:block;}
+.sd-item{
+  display:flex;align-items:center;gap:.65rem;
+  padding:.6rem 1rem;font-size:.82rem;cursor:pointer;
+  color:var(--ink2);border-bottom:1px solid var(--border);
+  transition:background .15s;
+}
+.sd-item:last-child{border-bottom:none;}
+.sd-item:hover{background:var(--blue-bg);color:var(--blue);}
+.sd-icon{font-size:.95rem;flex-shrink:0;}
+.sd-title{font-weight:600;flex:1;}
+.sd-cat{
+  font-size:.67rem;font-weight:700;padding:1px 7px;
+  background:var(--blue-bg);border:1px solid var(--blue-bdr);
+  border-radius:4px;color:var(--blue);flex-shrink:0;
+}
+.sd-empty{padding:1rem;font-size:.82rem;color:var(--ink4);text-align:center;}
+
+/* nav links */
+.nav-links{display:flex;gap:.1rem;list-style:none;margin-left:auto;}
+.nav-links a{
+  color:var(--ink3);text-decoration:none;font-size:.8rem;
+  font-weight:500;padding:.38rem .75rem;border-radius:var(--r3);
+  transition:all .2s;
+}
+.nav-links a:hover{background:var(--blue-bg);color:var(--blue);}
+.nav-links a.active{background:var(--blue-bg);color:var(--blue);font-weight:600;}
+
+/* nav right actions */
+.nav-actions{display:flex;align-items:center;gap:.4rem;flex-shrink:0;}
+
+.nav-icon-btn{
+  width:34px;height:34px;background:transparent;border:1px solid transparent;
+  border-radius:var(--r2);cursor:pointer;display:flex;align-items:center;
+  justify-content:center;font-size:1rem;color:var(--ink3);transition:all .2s;
+  position:relative;
+}
+.nav-icon-btn:hover{background:var(--surface2);border-color:var(--border);color:var(--ink);}
+
+/* notification badge */
+.notif-badge{
+  position:absolute;top:4px;right:4px;width:7px;height:7px;
+  background:var(--red);border-radius:50%;border:1.5px solid var(--surface);
+}
+
+/* ── THREE-DOT MENU ── */
+.dots-btn{
+  width:34px;height:34px;background:transparent;border:1px solid transparent;
+  border-radius:var(--r2);cursor:pointer;display:flex;align-items:center;
+  justify-content:center;color:var(--ink3);font-size:1.1rem;
+  transition:all .2s;letter-spacing:1px;flex-direction:column;gap:2.5px;
+  padding:8px;
+}
+.dots-btn:hover{background:var(--surface2);border-color:var(--border);color:var(--ink);}
+.dots-btn span{
+  display:block;width:4px;height:4px;background:currentColor;border-radius:50%;
+}
+
+.dots-menu{
+  display:none;position:absolute;top:calc(100% + 6px);right:0;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r);box-shadow:var(--shadow3);z-index:700;
+  width:240px;overflow:hidden;
+  animation:fadeDown .18s ease;
+}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.dots-menu.on{display:block;}
+.dots-menu-wrap{position:relative;}
+
+.dm-section{padding:.45rem 0;border-bottom:1px solid var(--border);}
+.dm-section:last-child{border-bottom:none;}
+.dm-label{
+  font-size:.67rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.08em;color:var(--ink4);padding:.35rem .9rem .2rem;
+}
+.dm-item{
+  display:flex;align-items:center;gap:.75rem;
+  padding:.55rem .9rem;font-size:.84rem;color:var(--ink2);
+  cursor:pointer;transition:background .15s;font-family:'Sora',sans-serif;
+  border:none;background:transparent;width:100%;text-align:left;
+}
+.dm-item:hover{background:var(--surface2);color:var(--ink);}
+.dm-item.danger:hover{background:#fff5f5;color:var(--red);}
+[data-theme="dark"] .dm-item.danger:hover{background:rgba(220,38,38,.1);}
+.dm-item-icon{font-size:1rem;width:20px;text-align:center;flex-shrink:0;}
+.dm-item-label{flex:1;}
+.dm-item-right{
+  font-size:.72rem;color:var(--ink4);font-family:'JetBrains Mono',monospace;
+}
+
+/* zoom controls inside menu */
+.zoom-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.45rem .9rem;
+}
+.zoom-label{font-size:.82rem;color:var(--ink2);display:flex;align-items:center;gap:.5rem;}
+.zoom-controls{display:flex;align-items:center;gap:.4rem;}
+.zoom-btn{
+  width:26px;height:26px;background:var(--surface2);border:1px solid var(--border);
+  border-radius:5px;cursor:pointer;font-size:.95rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;color:var(--ink2);
+  transition:all .15s;
+}
+.zoom-btn:hover{background:var(--blue-bg);border-color:var(--blue-bdr);color:var(--blue);}
+#zoom-val{
+  font-size:.78rem;font-family:'JetBrains Mono',monospace;
+  color:var(--ink2);min-width:38px;text-align:center;font-weight:500;
+}
+
+/* theme toggle row */
+.theme-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.45rem .9rem;cursor:pointer;
+  transition:background .15s;
+}
+.theme-row:hover{background:var(--surface2);}
+.theme-row-left{display:flex;align-items:center;gap:.75rem;font-size:.84rem;color:var(--ink2);}
+/* toggle switch */
+.toggle-sw{
+  width:34px;height:19px;background:var(--surface3);border:1px solid var(--border);
+  border-radius:var(--r3);position:relative;transition:background .25s;flex-shrink:0;
+}
+.toggle-sw.on{background:var(--blue);border-color:var(--blue-dark);}
+.toggle-sw::after{
+  content:'';position:absolute;top:2px;left:2px;
+  width:13px;height:13px;background:#fff;border-radius:50%;
+  transition:transform .25s;box-shadow:0 1px 3px rgba(0,0,0,.2);
+}
+.toggle-sw.on::after{transform:translateX(15px);}
+
+/* ── SIDEBAR PANEL ── */
+.sidebar-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.45);z-index:750;backdrop-filter:blur(3px);
+}
+.sidebar-overlay.on{display:block;}
+
+.sidebar{
+  position:fixed;left:-310px;top:0;height:100vh;width:290px;
+  background:var(--surface);border-right:1px solid var(--border);
+  z-index:751;overflow-y:auto;
+  transition:left .3s cubic-bezier(.4,0,.2,1);
+  box-shadow:var(--shadow4);
+}
+.sidebar.on{left:0;}
+
+.sb-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 1.25rem;border-bottom:1px solid var(--border);
+  background:var(--surface);position:sticky;top:0;z-index:1;
+}
+.sb-title{font-size:.875rem;font-weight:700;color:var(--ink);}
+.sb-close{
+  background:var(--surface2);border:1px solid var(--border);
+  color:var(--ink3);border-radius:6px;width:28px;height:28px;
+  cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;
+}
+.sb-close:hover{background:#fee2e2;color:#dc2626;}
+.sb-body{padding:1.1rem;}
+
+.sb-section{margin-bottom:1.35rem;}
+.sb-section-title{
+  font-size:.67rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--blue);margin-bottom:.6rem;
+}
+.sb-tip{
+  background:var(--blue-bg);border:1px solid var(--blue-bdr);
+  border-radius:var(--r2);padding:.65rem .85rem;margin-bottom:.5rem;
+}
+.sb-tip-h{font-size:.76rem;font-weight:700;color:var(--ink);margin-bottom:.18rem;}
+.sb-tip-t{font-size:.73rem;color:var(--ink3);line-height:1.6;}
+
+.sb-nav-link{
+  display:flex;align-items:center;gap:.6rem;
+  padding:.5rem .75rem;border-radius:var(--r2);
+  text-decoration:none;color:var(--ink2);font-size:.84rem;
+  font-weight:500;margin-bottom:3px;transition:all .18s;
+  border:1px solid transparent;
+}
+.sb-nav-link:hover{background:var(--blue-bg);color:var(--blue);
+  border-color:var(--blue-bdr);transform:translateX(3px);}
+.sb-nav-ic{width:18px;text-align:center;}
+.sb-div{height:1px;background:var(--border);margin:1rem 0;}
+.sb-stat{
+  display:flex;justify-content:space-between;
+  padding:.42rem 0;border-bottom:1px solid var(--border);font-size:.8rem;
+}
+.sb-stat:last-child{border-bottom:none;}
+.sb-stat-k{color:var(--ink3);}
+.sb-stat-v{color:var(--blue);font-weight:700;}
+
+/* ═══════════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════════ */
+.hero{
+  background:var(--surface);border-bottom:1px solid var(--border);
+  padding:5rem 0 4rem;position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;top:-100px;right:-120px;
+  width:480px;height:480px;border-radius:50%;
+  background:radial-gradient(circle,rgba(26,86,219,.07) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero::after{
+  content:'';position:absolute;bottom:-80px;left:-60px;
+  width:360px;height:360px;border-radius:50%;
+  background:radial-gradient(circle,rgba(15,155,88,.05) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-inner{
+  max-width:1280px;margin:0 auto;padding:0 1.5rem;
+  display:grid;grid-template-columns:1fr 260px;gap:4rem;align-items:center;
+  position:relative;z-index:1;
+}
+.avail-pill{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:var(--green-bg);border:1px solid var(--green-bdr);
+  border-radius:var(--r3);padding:.35rem 1rem;
+  color:var(--green);font-size:.74rem;font-weight:700;
+  margin-bottom:1.5rem;letter-spacing:.05em;text-transform:uppercase;
+}
+.pulse{
+  width:7px;height:7px;background:var(--green);border-radius:50%;
+  animation:pulseAnim 2s ease-in-out infinite;
+}
+@keyframes pulseAnim{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.8)}}
+
+h1.hero-name{
+  font-family:'Lora',serif;font-size:3.75rem;font-weight:700;
+  color:var(--ink);line-height:1.06;margin-bottom:1rem;letter-spacing:-.025em;
+}
+h1.hero-name .blue{color:var(--blue);}
+
+.hero-role{
+  font-size:.92rem;font-weight:500;color:var(--ink3);
+  margin-bottom:1.25rem;display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;
+}
+.rdot{width:3px;height:3px;background:var(--ink4);border-radius:50%;flex-shrink:0;}
+.hero-desc{
+  font-size:.97rem;color:var(--ink3);max-width:520px;margin-bottom:2.25rem;line-height:1.82;
+}
+.hero-btns{display:flex;gap:.7rem;flex-wrap:wrap;}
+
+.btn{
+  display:inline-flex;align-items:center;gap:.45rem;
+  padding:.72rem 1.55rem;border-radius:var(--r2);
+  font-size:.855rem;font-weight:600;text-decoration:none;
+  transition:all .2s;border:none;cursor:pointer;font-family:'Sora',sans-serif;
+}
+.btn-fill{
+  background:var(--blue);color:#fff;
+  box-shadow:0 2px 8px rgba(26,86,219,.3);
+}
+.btn-fill:hover{background:var(--blue-dark);transform:translateY(-1px);
+  box-shadow:0 5px 16px rgba(26,86,219,.38);}
+.btn-out{
+  background:transparent;color:var(--ink2);
+  border:1.5px solid var(--border);
+}
+.btn-out:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-bg);}
+
+.hero-stats{display:flex;flex-direction:column;gap:.8rem;}
+.hst{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r);padding:1.2rem 1.4rem;
+  box-shadow:var(--shadow1);transition:all .2s;
+}
+.hst:hover{box-shadow:var(--shadow2);transform:translateY(-2px);}
+.hst:nth-child(1){border-left:3px solid var(--blue);}
+.hst:nth-child(2){border-left:3px solid var(--ink3);}
+.hst:nth-child(3){border-left:3px solid var(--green);}
+.hst-n{
+  font-family:'Lora',serif;font-size:1.95rem;font-weight:700;
+  color:var(--ink);line-height:1;
+}
+.hst:nth-child(1) .hst-n{color:var(--blue);}
+.hst:nth-child(3) .hst-n{color:var(--green);}
+.hst-l{font-size:.73rem;color:var(--ink4);margin-top:.28rem;font-weight:500;}
+
+/* ═══════════════════════════════════════════════════
+   SECTION WRAPPER
+═══════════════════════════════════════════════════ */
+.sec{padding:4.25rem 0;}
+.sec.alt{background:var(--surface);}
+.wrap{max-width:1280px;margin:0 auto;padding:0 1.5rem;}
+
+.eyebrow{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.67rem;font-weight:500;text-transform:uppercase;
+  letter-spacing:.14em;color:var(--blue);
+  margin-bottom:.55rem;display:flex;align-items:center;gap:.6rem;
+}
+.eyebrow::after{content:'';width:32px;height:1.5px;
+  background:linear-gradient(90deg,var(--blue),transparent);}
+.sec-title{
+  font-family:'Lora',serif;font-size:2rem;font-weight:700;
+  color:var(--ink);margin-bottom:.65rem;letter-spacing:-.02em;
+}
+.sec-desc{font-size:.92rem;color:var(--ink3);max-width:560px;line-height:1.8;}
+.sec-hdr{margin-bottom:2.5rem;}
+
+/* ═══════════════════════════════════════════════════
+   ACCORDION
+═══════════════════════════════════════════════════ */
+.acc{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r);margin-bottom:.65rem;
+  box-shadow:var(--shadow1);overflow:hidden;transition:box-shadow .2s;
+}
+.acc:hover{box-shadow:var(--shadow2);}
+.acc-hd{
+  display:flex;align-items:center;gap:.9rem;
+  padding:1.1rem 1.4rem;cursor:pointer;
+  background:var(--surface);transition:background .15s;user-select:none;
+}
+.acc-hd:hover{background:var(--surface2);}
+.acc-ico{
+  width:40px;height:40px;border-radius:9px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:1.2rem;
+  background:var(--blue-bg);border:1px solid var(--blue-bdr);
+}
+.acc-meta{flex:1;}
+.acc-tag{font-size:.63rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.09em;color:var(--blue);margin-bottom:.12rem;}
+.acc-ttl{font-family:'Lora',serif;font-size:1.1rem;font-weight:700;
+  color:var(--ink);letter-spacing:-.01em;}
+.acc-count{
+  font-size:.68rem;font-weight:700;padding:.18rem .58rem;
+  background:var(--blue-bg);border:1px solid var(--blue-bdr);
+  border-radius:var(--r3);color:var(--blue);flex-shrink:0;
+}
+.acc-chev{font-size:1rem;color:var(--ink4);flex-shrink:0;
+  transition:transform .28s;}
+.acc.open .acc-chev{transform:rotate(180deg);}
+.acc-body{display:none;padding:0 1.4rem 1.4rem;border-top:1px solid var(--border);}
+.acc.open .acc-body{display:block;}
+
+/* skill grid */
+.sk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  gap:.9rem;padding-top:1.1rem;}
+.sk-card{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:var(--r2);padding:1.2rem 1.1rem;transition:all .2s;
+}
+.sk-card:hover{transform:translateY(-3px);box-shadow:var(--shadow2);
+  border-color:var(--blue-bdr);}
+.sk-ic{font-size:1.4rem;margin-bottom:.75rem;}
+.sk-card h4{font-size:.875rem;font-weight:700;color:var(--ink);margin-bottom:.75rem;}
+.sk-ul{list-style:none;}
+.sk-ul li{
+  font-size:.81rem;color:var(--ink3);padding:.35rem 0 .35rem .9rem;
+  position:relative;border-bottom:1px solid var(--border);
+}
+.sk-ul li:last-child{border-bottom:none;}
+.sk-ul li::before{content:'';position:absolute;left:0;top:50%;
+  transform:translateY(-50%);width:4px;height:4px;
+  background:var(--blue);border-radius:50%;}
+
+/* edu */
+.edu-inner{display:grid;grid-template-columns:auto 1fr;gap:1.1rem;
+  align-items:start;padding-top:1.1rem;}
+.edu-pills{display:flex;flex-direction:column;gap:.55rem;}
+.edu-p{
+  display:inline-flex;align-items:center;gap:.4rem;
+  background:var(--blue-bg);border:1px solid var(--blue-bdr);
+  border-radius:var(--r3);padding:.4rem .95rem;
+  font-size:.8rem;font-weight:700;color:var(--blue);white-space:nowrap;
+}
+.edu-p.green{background:var(--green-bg);border-color:var(--green-bdr);color:var(--green);}
+.edu-txt{font-size:.85rem;color:var(--ink3);line-height:1.75;}
+.edu-txt strong{color:var(--ink);}
+
+.forage-row{
+  display:inline-flex;align-items:center;gap:.45rem;
+  background:var(--green-bg);border:1px solid var(--green-bdr);
+  border-radius:var(--r3);padding:.28rem .8rem;
+  color:var(--green);font-size:.67rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.07em;
+  margin-bottom:.8rem;margin-top:1.1rem;
+}
+.cert-row{
+  display:flex;align-items:flex-start;gap:.8rem;
+  padding:.7rem;border-radius:var(--r2);
+  border:1px solid transparent;margin-bottom:.4rem;transition:all .18s;
+}
+.cert-row:hover{background:var(--surface2);border-color:var(--border);}
+.cert-row.fg{background:var(--green-bg);border-color:var(--green-bdr);}
+.cert-row.fg:hover{background:rgba(15,155,88,.14);}
+.clog{
+  width:32px;height:32px;border-radius:7px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.75rem;font-weight:800;color:#fff;
+}
+.clog.tata{background:#1d4ed8;}
+.clog.ba{background:#1e3a5f;}
+.clog.ms{background:#16a34a;}
+.clog.ud{background:#7c3aed;}
+.clog.mi{background:#b45309;}
+.cn{font-size:.81rem;font-weight:600;color:var(--ink);line-height:1.4;}
+.cm{font-size:.72rem;color:var(--ink4);margin-top:.15rem;}
+.cnew{
+  display:inline-block;font-size:.57rem;font-weight:700;
+  padding:1px 5px;background:var(--green-bg);border:1px solid var(--green-bdr);
+  border-radius:var(--r3);color:var(--green);margin-left:.3rem;
+  vertical-align:middle;text-transform:uppercase;
+}
+.ctag{
+  display:inline-block;font-size:.63rem;font-weight:600;
+  padding:1px 6px;background:var(--surface);border:1px solid var(--border);
+  border-radius:4px;color:var(--ink3);margin:3px 2px 0;
+}
+.cdiv{height:1px;background:var(--border);margin:.7rem 0;}
+
+/* project cards */
+.proj-grid{padding-top:1.1rem;display:grid;gap:1.1rem;}
+.proj-card{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:var(--r2);overflow:hidden;
+  display:grid;grid-template-columns:4px 1fr;transition:all .22s;
+}
+.proj-card:hover{box-shadow:var(--shadow2);transform:translateX(4px);
+  border-color:var(--blue-bdr);}
+.proj-bar{background:var(--blue);}
+.proj-bar.gr{background:var(--green);}
+.proj-bar.gy{background:var(--ink3);}
+.proj-inner{padding:1.5rem;}
+.p-tag{
+  display:inline-flex;align-items:center;gap:.35rem;
+  font-size:.65rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.07em;padding:.26rem .8rem;border-radius:var(--r3);
+  background:var(--blue-bg);border:1px solid var(--blue-bdr);
+  color:var(--blue);margin-bottom:.8rem;
+}
+.p-tag.gr{background:var(--green-bg);border-color:var(--green-bdr);color:var(--green);}
+.p-tag.gy{background:var(--surface);border-color:var(--border);color:var(--ink3);}
+.nf{
+  font-size:.58rem;font-weight:700;padding:1px 5px;
+  background:currentColor;color:#fff;border-radius:3px;
+  filter:brightness(0) invert(1) contrast(1);
+  -webkit-filter:brightness(0) invert(1);
+}
+.proj-card h3{
+  font-family:'Lora',serif;font-size:1.2rem;font-weight:700;
+  color:var(--ink);margin-bottom:.65rem;letter-spacing:-.01em;
+}
+.pdesc{font-size:.85rem;color:var(--ink3);line-height:1.8;margin-bottom:1rem;}
+.ppts{list-style:none;margin-bottom:1rem;}
+.ppts li{
+  font-size:.83rem;color:var(--ink3);padding:.35rem 0 .35rem 1.35rem;
+  position:relative;border-bottom:1px solid var(--surface);
+}
+.ppts li:last-child{border-bottom:none;}
+.ppts li::before{content:'→';position:absolute;left:0;
+  color:var(--blue);font-weight:700;font-size:.77rem;}
+.chips{display:flex;flex-wrap:wrap;gap:.38rem;margin-bottom:1rem;}
+.chip{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.7rem;padding:.25rem .65rem;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:5px;color:var(--ink3);
+}
+.plink{
+  display:inline-flex;align-items:center;gap:.38rem;
+  font-size:.83rem;font-weight:600;color:var(--blue);
+  text-decoration:none;transition:gap .18s;
+  border-bottom:1.5px solid var(--blue-bdr);padding-bottom:1px;
+}
+.plink:hover{gap:.6rem;border-bottom-color:var(--blue);}
+
+/* ═══════════════════════════════════════════════════
+   CONTACT
+═══════════════════════════════════════════════════ */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.75rem;}
+.ci{display:flex;gap:.85rem;align-items:flex-start;margin-bottom:1.35rem;}
+.ci-ic{
+  width:42px;height:42px;background:var(--surface2);
+  border:1px solid var(--border);border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.05rem;flex-shrink:0;transition:all .2s;
+}
+.ci:hover .ci-ic{background:var(--blue-bg);border-color:var(--blue-bdr);}
+.ci h4{font-size:.68rem;font-weight:700;color:var(--ink4);
+  text-transform:uppercase;letter-spacing:.07em;margin-bottom:.2rem;}
+.ci a,.ci p{font-size:.9rem;color:var(--ink);text-decoration:none;font-weight:500;}
+.ci a:hover{color:var(--blue);}
+.soc-row{display:flex;gap:.55rem;margin-top:.5rem;}
+.soc{
+  width:40px;height:40px;background:var(--surface2);border:1px solid var(--border);
+  border-radius:9px;display:flex;align-items:center;justify-content:center;
+  color:var(--ink3);text-decoration:none;transition:all .2s;
+}
+.soc:hover{background:var(--blue);color:#fff;border-color:var(--blue);}
+
+.goals-card{
+  background:var(--ink);border-radius:var(--r);padding:1.75rem 1.5rem;color:#fff;
+}
+[data-theme="dark"] .goals-card{
+  background:var(--surface);border:1px solid var(--border);
+}
+.goals-card h3{
+  font-family:'Lora',serif;font-size:1.1rem;color:#fff;margin-bottom:1rem;
+}
+[data-theme="dark"] .goals-card h3{color:var(--ink);}
+.goals-card .sk-ul li{color:rgba(255,255,255,.7);border-bottom-color:rgba(255,255,255,.1);}
+[data-theme="dark"] .goals-card .sk-ul li{color:var(--ink3);border-bottom-color:var(--border);}
+.goals-card .sk-ul li::before{background:var(--blue);}
+.goals-card .sk-ul li:hover{color:#fff;}
+[data-theme="dark"] .goals-card .sk-ul li:hover{color:var(--ink);}
+
+/* ═══════════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════════ */
+footer{
+  background:var(--ink);color:rgba(255,255,255,.35);
+  padding:2rem 0;text-align:center;font-size:.8rem;
+}
+[data-theme="dark"] footer{background:#060912;border-top:1px solid var(--border);}
+footer .blue{color:var(--blue);font-weight:600;}
+
+/* ── BACK TO TOP ── */
+#back-top{
+  position:fixed;bottom:1.5rem;right:1.5rem;z-index:700;
+  width:40px;height:40px;background:var(--blue);color:#fff;
+  border:none;border-radius:var(--r2);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;box-shadow:var(--shadow2);
+  opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none;
+}
+#back-top.show{opacity:1;transform:translateY(0);pointer-events:auto;}
+#back-top:hover{background:var(--blue-dark);transform:translateY(-2px);}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════ */
+@media(max-width:960px){
+  .hero-inner{grid-template-columns:1fr;}
+  .hero-stats{flex-direction:row;flex-wrap:wrap;}
+  .hst{flex:1;min-width:120px;}
+  h1.hero-name{font-size:2.6rem;}
+  .contact-grid{grid-template-columns:1fr;}
+}
+@media(max-width:768px){
+  .nav-links{display:none;}
+  .nav-search{max-width:180px;}
+  h1.hero-name{font-size:2rem;}
+  .sidebar{width:280px;left:-280px;}
+  .sk-grid{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:480px){
+  .sk-grid{grid-template-columns:1fr;}
+  .nav-search{display:none;}
+}
+</style>
 </head>
-
 <body>
 
-    <!-- Background decorative layers -->
-    <div class="bg-glow"></div>
-    <div class="bg-noise"></div>
+<!-- PROGRESS BAR -->
+<div id="progress-bar"></div>
 
-    <!-- ============================================================
-         HEADER - Navigation bar at the top
-         ============================================================ -->
-    <header>
-        <div class="container">
-            <nav>
+<!-- TOAST -->
+<div id="toast">✓ <span id="toast-msg">Copied!</span></div>
 
-                <!-- Logo / Name -->
-                <div class="logo">SULTAN ALI</div>
+<!-- KEYBOARD SHORTCUTS MODAL -->
+<div class="modal-overlay" id="shortcutsModal">
+  <div class="modal-box">
+    <div class="modal-hdr">
+      <h3>⌨️ Keyboard Shortcuts</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="shortcut-row"><span class="shortcut-desc">Open search</span><div class="shortcut-keys"><span class="kbd">Ctrl</span><span class="kbd">K</span></div></div>
+      <div class="shortcut-row"><span class="shortcut-desc">Toggle dark mode</span><div class="shortcut-keys"><span class="kbd">Ctrl</span><span class="kbd">D</span></div></div>
+      <div class="shortcut-row"><span class="shortcut-desc">Open sidebar guide</span><div class="shortcut-keys"><span class="kbd">Ctrl</span><span class="kbd">B</span></div></div>
+      <div class="shortcut-row"><span class="shortcut-desc">Print / Save as PDF</span><div class="shortcut-keys"><span class="kbd">Ctrl</span><span class="kbd">P</span></div></div>
+      <div class="shortcut-row"><span class="shortcut-desc">Zoom in</span><div class="shortcut-keys"><span class="kbd">Ctrl</span><span class="kbd">+</span></div></div>
+      <div class="shortcut-row"><span class="shortcut-desc">Zoom out</span><div class="shortcut-keys"><span class="kbd">Ctrl</span><span class="kbd">−</span></div></div>
+      <div class="shortcut-row"><span class="shortcut-desc">Reset zoom</span><div class="shortcut-keys"><span class="kbd">Ctrl</span><span class="kbd">0</span></div></div>
+      <div class="shortcut-row"><span class="shortcut-desc">Back to top</span><div class="shortcut-keys"><span class="kbd">Home</span></div></div>
+      <div class="shortcut-row"><span class="shortcut-desc">Close modal / menu</span><div class="shortcut-keys"><span class="kbd">Esc</span></div></div>
+    </div>
+  </div>
+</div>
 
-                <!-- Navigation links - each one jumps to a section -->
-                <ul class="nav-links">
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#skills">Skills</a></li>
-                    <li><a href="#education">Education</a></li>
-                    <li><a href="#powerbi">Power BI</a></li>
-                    <li><a href="#excel">Excel</a></li>
-                    <li><a href="#sql">SQL</a></li>
-                    <li><a href="#development">Dev</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
+<!-- SIDEBAR OVERLAY -->
+<div class="sidebar-overlay" id="sb-overlay" onclick="closeSB()"></div>
 
-            </nav>
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <div class="sb-hdr">
+    <span class="sb-title">📋 Portfolio Guide</span>
+    <button class="sb-close" onclick="closeSB()">✕</button>
+  </div>
+  <div class="sb-body">
+    <div class="sb-section">
+      <div class="sb-section-title">📖 How to Use</div>
+      <div class="sb-tip"><div class="sb-tip-h">🧭 Navigate Sections</div><div class="sb-tip-t">Use the top nav bar to jump to any section. Each project section is collapsible — click the header to expand or close.</div></div>
+      <div class="sb-tip"><div class="sb-tip-h">🔎 Search (Ctrl+K)</div><div class="sb-tip-t">Use the search bar to instantly find any project, skill, or certification by name or tool.</div></div>
+      <div class="sb-tip"><div class="sb-tip-h">⚙️ Settings Menu</div><div class="sb-tip-t">Click the ⋮ three-dot menu (top right) for theme toggle, zoom controls, print, share, and more.</div></div>
+      <div class="sb-tip"><div class="sb-tip-h">🎓 Certifications</div><div class="sb-tip-t">TATA & British Airways Forage internships are highlighted in green inside the Education section.</div></div>
+      <div class="sb-tip"><div class="sb-tip-h">⌨️ Shortcuts</div><div class="sb-tip-t">Press Ctrl+K for search, Ctrl+D for dark mode, Ctrl+B for this guide.</div></div>
+    </div>
+
+    <div class="sb-div"></div>
+    <div class="sb-section">
+      <div class="sb-section-title">⚡ Quick Navigation</div>
+      <a href="#skills"      class="sb-nav-link" onclick="closeSB();openAcc('a-sk')"><span class="sb-nav-ic">⚙️</span>Core Skills</a>
+      <a href="#education"   class="sb-nav-link" onclick="closeSB();openAcc('a-edu')"><span class="sb-nav-ic">🎓</span>Education</a>
+      <a href="#education"   class="sb-nav-link" onclick="closeSB();openAcc('a-cert')"><span class="sb-nav-ic">📜</span>Certifications</a>
+      <a href="#powerbi"     class="sb-nav-link" onclick="closeSB();openAcc('a-pbi')"><span class="sb-nav-ic">📊</span>Power BI Projects</a>
+      <a href="#excel"       class="sb-nav-link" onclick="closeSB();openAcc('a-xl')"><span class="sb-nav-ic">📗</span>Excel / Sheets</a>
+      <a href="#sql"         class="sb-nav-link" onclick="closeSB();openAcc('a-sql')"><span class="sb-nav-ic">🗄️</span>SQL Projects</a>
+      <a href="#development" class="sb-nav-link" onclick="closeSB();openAcc('a-dev')"><span class="sb-nav-ic">💻</span>Dev Projects</a>
+      <a href="#contact"     class="sb-nav-link" onclick="closeSB()"><span class="sb-nav-ic">📬</span>Contact</a>
+    </div>
+
+    <div class="sb-div"></div>
+    <div class="sb-section">
+      <div class="sb-section-title">📈 At a Glance</div>
+      <div class="sb-stat"><span class="sb-stat-k">Total Projects</span><span class="sb-stat-v">9+</span></div>
+      <div class="sb-stat"><span class="sb-stat-k">Certifications</span><span class="sb-stat-v">7</span></div>
+      <div class="sb-stat"><span class="sb-stat-k">Forage Internships</span><span class="sb-stat-v">2</span></div>
+      <div class="sb-stat"><span class="sb-stat-k">Tools</span><span class="sb-stat-v">Power BI · SQL · Excel</span></div>
+      <div class="sb-stat"><span class="sb-stat-k">Status</span><span class="sb-stat-v">Open to Work</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ NAVBAR ═══════════════════ -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <!-- Hamburger -->
+    <button class="hamburger" id="hamburger" onclick="toggleSB()" title="Open guide (Ctrl+B)">
+      <span></span><span></span><span></span>
+    </button>
+
+    <!-- Logo -->
+    <div class="logo-area">
+      <div class="logo-dot">S</div>
+      <div class="logo-name">Sultan <em>Ali</em></div>
+    </div>
+
+    <!-- Search -->
+    <div class="nav-search">
+      <span class="si">🔍</span>
+      <input type="text" id="searchInput" placeholder="Search…"
+        oninput="doSearch(this.value)"
+        onblur="setTimeout(hideSearch,200)"
+        onfocus="if(this.value)doSearch(this.value)">
+      <span class="sk">⌘K</span>
+      <div class="search-drop" id="searchDrop"></div>
+    </div>
+
+    <!-- Nav links -->
+    <ul class="nav-links">
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#powerbi">Power BI</a></li>
+      <li><a href="#excel">Excel</a></li>
+      <li><a href="#sql">SQL</a></li>
+      <li><a href="#development">Dev</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+
+    <!-- Right actions -->
+    <div class="nav-actions">
+
+      <!-- Notification bell -->
+      <button class="nav-icon-btn" onclick="showToast('No new notifications')" title="Notifications">
+        🔔<div class="notif-badge"></div>
+      </button>
+
+      <!-- Three-dot menu -->
+      <div class="dots-menu-wrap">
+        <button class="dots-btn" id="dotsBtn" onclick="toggleDotsMenu()" title="More options">
+          <span></span><span></span><span></span>
+        </button>
+
+        <div class="dots-menu" id="dotsMenu">
+
+          <!-- View section -->
+          <div class="dm-section">
+            <div class="dm-label">View</div>
+
+            <div class="theme-row" onclick="toggleTheme()">
+              <div class="theme-row-left">
+                <span style="font-size:1rem;">🌙</span>
+                <span style="font-size:.84rem;color:var(--ink2);">Dark Mode</span>
+              </div>
+              <div class="toggle-sw" id="theme-sw"></div>
+            </div>
+
+            <div class="zoom-row">
+              <div class="zoom-label">🔍 Zoom</div>
+              <div class="zoom-controls">
+                <button class="zoom-btn" onclick="changeZoom(-10)">−</button>
+                <span id="zoom-val">100%</span>
+                <button class="zoom-btn" onclick="changeZoom(10)">+</button>
+                <button class="zoom-btn" onclick="resetZoom()" title="Reset">↺</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Actions section -->
+          <div class="dm-section">
+            <div class="dm-label">Actions</div>
+            <button class="dm-item" onclick="printPage()">
+              <span class="dm-item-icon">🖨️</span>
+              <span class="dm-item-label">Print / Save as PDF</span>
+              <span class="dm-item-right">Ctrl+P</span>
+            </button>
+            <button class="dm-item" onclick="sharePortfolio()">
+              <span class="dm-item-icon">🔗</span>
+              <span class="dm-item-label">Copy Link</span>
+            </button>
+            <button class="dm-item" onclick="copyEmail()">
+              <span class="dm-item-icon">📧</span>
+              <span class="dm-item-label">Copy Email</span>
+            </button>
+            <button class="dm-item" onclick="downloadVCard()">
+              <span class="dm-item-icon">📇</span>
+              <span class="dm-item-label">Download Contact Card</span>
+            </button>
+          </div>
+
+          <!-- Navigation section -->
+          <div class="dm-section">
+            <div class="dm-label">Navigate</div>
+            <button class="dm-item" onclick="openModal();closeDotsMenu()">
+              <span class="dm-item-icon">⌨️</span>
+              <span class="dm-item-label">Keyboard Shortcuts</span>
+              <span class="dm-item-right">?</span>
+            </button>
+            <button class="dm-item" onclick="expandAll();closeDotsMenu()">
+              <span class="dm-item-icon">📂</span>
+              <span class="dm-item-label">Expand All Sections</span>
+            </button>
+            <button class="dm-item" onclick="collapseAll();closeDotsMenu()">
+              <span class="dm-item-icon">📁</span>
+              <span class="dm-item-label">Collapse All Sections</span>
+            </button>
+            <button class="dm-item" onclick="scrollTop();closeDotsMenu()">
+              <span class="dm-item-icon">⬆️</span>
+              <span class="dm-item-label">Back to Top</span>
+              <span class="dm-item-right">Home</span>
+            </button>
+          </div>
+
+          <!-- About section -->
+          <div class="dm-section">
+            <div class="dm-label">About</div>
+            <button class="dm-item" onclick="showAbout();closeDotsMenu()">
+              <span class="dm-item-icon">ℹ️</span>
+              <span class="dm-item-label">About This Portfolio</span>
+            </button>
+            <a class="dm-item" href="https://github.com/ali123svg" target="_blank" onclick="closeDotsMenu()">
+              <span class="dm-item-icon">💻</span>
+              <span class="dm-item-label">View GitHub</span>
+            </a>
+            <a class="dm-item" href="https://www.linkedin.com/in/Sultan-ali-12494429a" target="_blank" onclick="closeDotsMenu()">
+              <span class="dm-item-icon">🔵</span>
+              <span class="dm-item-label">LinkedIn Profile</span>
+            </a>
+          </div>
+
+        </div><!-- /dots-menu -->
+      </div><!-- /dots-menu-wrap -->
+    </div><!-- /nav-actions -->
+  </div>
+</nav>
+
+<main>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="avail-pill"><span class="pulse"></span>Open to Opportunities</div>
+      <h1 class="hero-name">Hi, I'm<br><span class="blue">Sultan Ali</span></h1>
+      <p class="hero-role">
+        Data Analyst <span class="rdot"></span>
+        Power BI <span class="rdot"></span>
+        Excel &amp; SQL <span class="rdot"></span>
+        Ballari, Karnataka
+      </p>
+      <p class="hero-desc">BCA graduate who transforms raw data into clear, actionable insights through dashboards, visual analytics, and structured SQL reporting that drive real business decisions.</p>
+      <div class="hero-btns">
+        <a href="#powerbi" class="btn btn-fill" onclick="openAcc('a-pbi')">View My Work →</a>
+        <a href="#contact" class="btn btn-out">Get in Touch</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hst"><div class="hst-n">7.51</div><div class="hst-l">BCA CGPA · 2023</div></div>
+      <div class="hst"><div class="hst-n">9+</div><div class="hst-l">Completed Projects</div></div>
+      <div class="hst"><div class="hst-n">7</div><div class="hst-l">Certifications Earned</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ SKILLS ═══════════════════ -->
+<div class="sec alt" id="skills">
+  <div class="wrap">
+    <div class="sec-hdr">
+      <div class="eyebrow">Technical Skills</div>
+      <h2 class="sec-title">Core Competencies</h2>
+    </div>
+    <div class="acc open" id="a-sk">
+      <div class="acc-hd" onclick="toggleAcc('a-sk')">
+        <div class="acc-ico">⚙️</div>
+        <div class="acc-meta"><div class="acc-tag">All Categories</div><div class="acc-ttl">Technical &amp; Soft Skills</div></div>
+        <span class="acc-count">4 categories</span>
+        <span class="acc-chev">▾</span>
+      </div>
+      <div class="acc-body">
+        <div class="sk-grid">
+          <div class="sk-card"><div class="sk-ic">📊</div><h4>Data Analysis Tools</h4>
+            <ul class="sk-ul"><li>SQL (Joins, Subqueries, Aggregations)</li><li>Excel (Pivot Tables, VLOOKUP, Dashboards)</li><li>Google Sheets (Formulas, Charts, KPI Tracking)</li><li>Power BI (Data Modeling, DAX, Dashboards)</li><li>CRM Tools (Lead Tracking, Sales Pipeline)</li></ul>
+          </div>
+          <div class="sk-card"><div class="sk-ic">🔍</div><h4>Data Analysis Skills</h4>
+            <ul class="sk-ul"><li>Data Cleaning &amp; Preprocessing</li><li>Exploratory Data Analysis (EDA)</li><li>Data Visualization &amp; Storytelling</li><li>Basic Statistics</li></ul>
+          </div>
+          <div class="sk-card"><div class="sk-ic">💻</div><h4>Technical &amp; Dev</h4>
+            <ul class="sk-ul"><li>HTML, CSS, JavaScript</li><li>Git &amp; GitHub</li><li>VS Code, Eclipse</li></ul>
+          </div>
+          <div class="sk-card"><div class="sk-ic">🎯</div><h4>Soft Skills</h4>
+            <ul class="sk-ul"><li>Analytical &amp; Problem-Solving</li><li>Attention to Detail</li><li>Team Collaboration</li><li>Effective Communication</li></ul>
+          </div>
         </div>
-    </header>
-
-    <main>
-
-        <!-- ============================================================
-             HERO SECTION - First thing visitor sees
-             ============================================================ -->
-        <section class="hero">
-            <div class="container">
-                <div class="hero-content">
-
-                    <!-- "Available for opportunities" badge -->
-                    <div class="hero-badge">
-                        <span class="status-dot"></span>
-                        Available for opportunities
-                    </div>
-
-                    <!-- Main heading -->
-                    <h1>
-                        Hi, I'm <span class="gradient-text">Sultan Ali</span>
-                    </h1>
-
-                    <!-- Subtitle -->
-                    <p class="hero-subtitle">
-                        Aspiring Data Analyst | Power BI | Excel | SQL
-                    </p>
-
-                    <!-- Short description -->
-                    <p class="hero-description">
-                        I transform complex data into actionable insights through powerful visualizations
-                        and analytics. BCA graduate specializing in Power BI dashboards, Excel analytics,
-                        SQL, and data-driven decision making.
-                    </p>
-
-                    <!-- Call to action buttons -->
-                    <div class="btn-group">
-                        <a href="#powerbi" class="btn btn-primary">
-                            View My Work
-                            <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"/>
-                            </svg>
-                        </a>
-                        <a href="#contact" class="btn btn-secondary">Get in Touch</a>
-                    </div>
-
-                    <!-- 3 quick stats -->
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-number">7.51/10</div>
-                            <div class="stat-label">BCA Graduate 2023</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number">6+</div>
-                            <div class="stat-label">Completed Projects</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number">60%</div>
-                            <div class="stat-label">Efficiency Improvement</div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <!-- ============================================================
-             ABOUT SECTION
-             ============================================================ -->
-        <section id="about">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-badge">About Me</span>
-                    <h2 class="section-title">Turning Data Into Decisions</h2>
-                    <p class="section-desc">
-                        Detail-oriented Computer Applications graduate with hands-on experience in building
-                        end-to-end data dashboards and software applications. I specialize in transforming
-                        raw data into clear, actionable visual reports that drive business success.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- ============================================================
-             SKILLS SECTION
-             ============================================================ -->
-        <section id="skills">
-            <div class="container">
-
-                <div class="section-header">
-                    <span class="section-badge">Technical Skills</span>
-                    <h2 class="section-title">Core Competencies</h2>
-                </div>
-
-                <div class="skills-grid">
-
-                    <!-- Skill Card 1: Tools -->
-                    <div class="skill-card">
-                        <span class="skill-icon">📊</span>
-                        <h3>Data Analysis Tools</h3>
-                        <ul class="skill-list">
-                            <li>SQL (Joins, Subqueries, Aggregations)</li>
-                            <li>Excel (Pivot Tables, VLOOKUP, Dashboards)</li>
-                            <li>Power BI (Data Modeling, DAX, Dashboards)</li>
-                        </ul>
-                    </div>
-
-                    <!-- Skill Card 2: Analysis Skills -->
-                    <div class="skill-card">
-                        <span class="skill-icon">🔍</span>
-                        <h3>Data Analysis Skills</h3>
-                        <ul class="skill-list">
-                            <li>Data Cleaning & Preprocessing</li>
-                            <li>Exploratory Data Analysis (EDA)</li>
-                            <li>Data Visualization & Storytelling</li>
-                            <li>Basic Statistics</li>
-                        </ul>
-                    </div>
-
-                    <!-- Skill Card 3: Technical -->
-                    <div class="skill-card">
-                        <span class="skill-icon">⚙️</span>
-                        <h3>Technical & Development</h3>
-                        <ul class="skill-list">
-                            <li>HTML, CSS, JavaScript</li>
-                            <li>Java (OOP, File Handling)</li>
-                            <li>Git & GitHub</li>
-                            <li>VS Code, Eclipse</li>
-                        </ul>
-                    </div>
-
-                    <!-- Skill Card 4: Soft Skills -->
-                    <div class="skill-card">
-                        <span class="skill-icon">🎯</span>
-                        <h3>Soft Skills</h3>
-                        <ul class="skill-list">
-                            <li>Analytical & Problem-Solving Skills</li>
-                            <li>Attention to Detail</li>
-                            <li>Team Collaboration</li>
-                            <li>Effective Communication</li>
-                        </ul>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <!-- ============================================================
-             EDUCATION SECTION
-             ============================================================ -->
-        <section id="education">
-            <div class="container">
-
-                <div class="section-header">
-                    <span class="section-badge">Education</span>
-                    <h2 class="section-title">Academic Background</h2>
-                </div>
-
-                <div class="skills-grid">
-
-                    <!-- Degree Card -->
-                    <div class="skill-card">
-                        <span class="skill-icon">🎓</span>
-                        <h3>Bachelor of Computer Applications</h3>
-                        <p style="color: var(--color-text-light); margin-top: 1rem; line-height: 1.8;">
-                            SMT. Sarala Devi Satish Chandra Agarwal
-                            Government First Grade College (Autonomous)
-                            <br>
-                            <strong style="color: var(--color-blue); font-size: 1.2rem; display: inline-block; margin-top: 0.5rem;">
-                                CGPA: 7.51 / 10 &nbsp;|&nbsp; 2023
-                            </strong>
-                        </p>
-                    </div>
-
-                    <!-- Certifications Card -->
-                    <div class="skill-card">
-                        <span class="skill-icon">📜</span>
-                        <h3>Certifications</h3>
-                        <ul class="skill-list">
-                            <li>Excel Dashboard for Beginners — Microsoft & Simplilearn | Dec 2025</li>
-                            <li>Certified Data Analyst Foundations — Udemy | Dec 2025</li>
-                            <li>Microsoft Office Specialist (Excel & Word) — MICE | 2024</li>
-                            <li>Java Programming — Udemy | 2025</li>
-                            <li>SQL — Udemy | 2024</li>
-                        </ul>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <!-- ============================================================
-             PROJECT 1 — POWER BI
-             ============================================================ -->
-        <section id="powerbi" class="project-section">
-            <div class="container">
-
-                <!-- Section header with icon and title -->
-                <div class="project-section-header">
-                    <div class="project-icon">📊</div>
-                    <div>
-                        <div class="project-section-tag">Data Analytics</div>
-                        <div class="project-section-title">Power BI Project</div>
-                    </div>
-                </div>
-
-                <div class="projects-grid">
-                    <div class="project-card">
-                        <div class="project-content">
-
-                            <span class="project-tag">Power BI Dashboard</span>
-                            <h3>Sales Dashboard (Power BI)</h3>
-
-                            <p class="project-desc">
-                                Built a complete end-to-end sales dashboard tracking revenue, regional
-                                performance, and product-wise sales trends across Karnataka regions
-                                using Power BI and DAX.
-                            </p>
-
-                            <ul class="project-points">
-                                <li>Total sales divided: South Karnataka (44.71%) and North Karnataka (55.29%)</li>
-                                <li>Consumer segment leads with 67.94%, followed by Corporate (18.4%) and Home Office (13.6%)</li>
-                                <li>Top-selling sub-categories include Chairs, Machines, and Phones</li>
-                                <li>Interactive charts for sales by state, discount, profit, quantity, and city</li>
-                                <li>Implemented DAX for calculated measures and interactive drill-down filtering</li>
-                            </ul>
-
-                            <div class="tech-tags">
-                                <span class="tech-tag">Power BI</span>
-                                <span class="tech-tag">DAX</span>
-                                <span class="tech-tag">Data Modeling</span>
-                                <span class="tech-tag">Interactive Filters</span>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- ============================================================
-             PROJECT 2 — EXCEL
-             ============================================================ -->
-        <section id="excel" class="project-section">
-            <div class="container">
-
-                <div class="project-section-header">
-                    <div class="project-icon">📗</div>
-                    <div>
-                        <div class="project-section-tag">Data Analytics</div>
-                        <div class="project-section-title">Excel Project</div>
-                    </div>
-                </div>
-
-                <div class="projects-grid">
-                    <div class="project-card">
-                        <div class="project-content">
-
-                            <span class="project-tag">Excel Analytics</span>
-                            <h3>Karnataka Store Sales Dashboard (Excel)</h3>
-
-                            <p class="project-desc">
-                                Analyzed 31,000+ rows of Karnataka store sales data to identify top
-                                categories, customer trends, and regional performance. Built a fully
-                                interactive Excel dashboard with visual insights.
-                            </p>
-
-                            <ul class="project-points">
-                                <li>Analyzed 2025 sales data to identify top categories and customer purchasing trends</li>
-                                <li>Created interactive dashboard comparing sales vs orders and men vs women purchases</li>
-                                <li>Visualized top 10 states by sales contribution and sales channel performance</li>
-                                <li>Performed age-gender demographic analysis to identify key customer segments</li>
-                                <li>Supported data-driven decisions through clear regional performance visuals</li>
-                            </ul>
-
-                            <div class="tech-tags">
-                                <span class="tech-tag">Excel</span>
-                                <span class="tech-tag">Pivot Tables</span>
-                                <span class="tech-tag">Data Cleaning</span>
-                                <span class="tech-tag">Dashboard Design</span>
-                            </div>
-
-                            <a href="https://github.com/ali123svg/Karnataka-Sales-dash-board" target="_blank" class="project-link">
-                                View on GitHub →
-                            </a>
-
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- ============================================================
-             PROJECT 3 — SQL
-             ============================================================ -->
-        <section id="sql" class="project-section">
-            <div class="container">
-
-                <div class="project-section-header">
-                    <div class="project-icon">🗄️</div>
-                    <div>
-                        <div class="project-section-tag">Data Analytics</div>
-                        <div class="project-section-title">SQL Project</div>
-                    </div>
-                </div>
-
-                <div class="projects-grid">
-                    <div class="project-card">
-                        <div class="project-content">
-
-                            <span class="project-tag">SQL Analytics</span>
-                            <h3>Sales Analysis Project (SQL)</h3>
-
-                            <p class="project-desc">
-                                Designed and queried a relational sales database using MySQL to extract
-                                business insights on revenue, customer behavior, and product performance
-                                across Karnataka regions.
-                            </p>
-
-                            <ul class="project-points">
-                                <li>Designed relational database with Customers, Products, and Orders tables</li>
-                                <li>Wrote queries using Joins, Aggregations, and Subqueries for regional analysis</li>
-                                <li>Identified top 5 best-selling products and highest spending customers</li>
-                                <li>Analyzed sales by gender, city, and discount type for business insights</li>
-                                <li>Generated year-end summary: total revenue, units sold, average order value</li>
-                            </ul>
-
-                            <div class="tech-tags">
-                                <span class="tech-tag">MySQL</span>
-                                <span class="tech-tag">SQL Joins</span>
-                                <span class="tech-tag">Aggregations</span>
-                                <span class="tech-tag">Subqueries</span>
-                            </div>
-
-                            <a href="https://github.com/ali123svg/Sales-analysis-SQL" target="_blank" class="project-link">
-                                View on GitHub →
-                            </a>
-
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- ============================================================
-             PROJECT 4 — DEVELOPMENT (Java + Web)
-             ============================================================ -->
-        <section id="development" class="project-section">
-            <div class="container">
-
-                <div class="project-section-header">
-                    <div class="project-icon">💻</div>
-                    <div>
-                        <div class="project-section-tag">Development Projects</div>
-                        <div class="project-section-title">Java & Web Applications</div>
-                    </div>
-                </div>
-
-                <div class="projects-grid">
-
-                    <!-- Java Project 1 -->
-                    <div class="project-card">
-                        <div class="project-content">
-
-                            <span class="project-tag">Java Application</span>
-                            <h3>Employee Management System</h3>
-
-                            <p class="project-desc">
-                                Developed a console-based application to manage employee data for up to
-                                100 records with full CRUD operations.
-                            </p>
-
-                            <ul class="project-points">
-                                <li>Applied OOP principles: inheritance, encapsulation, and polymorphism</li>
-                                <li>Implemented Create, Read, Update, Delete (CRUD) operations</li>
-                                <li>Added salary calculation and department-based filtering</li>
-                                <li>Integrated search functionality for quick data retrieval</li>
-                            </ul>
-
-                            <div class="tech-tags">
-                                <span class="tech-tag">Java</span>
-                                <span class="tech-tag">OOP</span>
-                                <span class="tech-tag">File I/O</span>
-                                <span class="tech-tag">Eclipse</span>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <!-- Java Project 2 -->
-                    <div class="project-card">
-                        <div class="project-content">
-
-                            <span class="project-tag">Java Application</span>
-                            <h3>Pizza Billing System</h3>
-
-                            <p class="project-desc">
-                                Created a console-based ordering system for pizza selection, tax
-                                computation, and total price generation.
-                            </p>
-
-                            <ul class="project-points">
-                                <li>Developed order management with real-time price calculations</li>
-                                <li>Implemented tax computation and total bill generation logic</li>
-                                <li>Applied OOP concepts for modular and maintainable code</li>
-                                <li>Built user-friendly console interface for ordering experience</li>
-                            </ul>
-
-                            <div class="tech-tags">
-                                <span class="tech-tag">Java</span>
-                                <span class="tech-tag">OOP</span>
-                                <span class="tech-tag">Eclipse</span>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <!-- Web Project -->
-                    <div class="project-card">
-                        <div class="project-content">
-
-                            <span class="project-tag">Web Application</span>
-                            <h3>Event Management System</h3>
-
-                            <p class="project-desc">
-                                Built a dynamic single-page web application for creating and deleting
-                                events with data stored using localStorage API.
-                            </p>
-
-                            <ul class="project-points">
-                                <li>Built dynamic SPA with seamless event creation and deletion</li>
-                                <li>Used localStorage API so data stays after page refresh</li>
-                                <li>Designed responsive and clean UI with modern CSS styling</li>
-                                <li>Created smooth user experience using JavaScript DOM manipulation</li>
-                            </ul>
-
-                            <div class="tech-tags">
-                                <span class="tech-tag">HTML</span>
-                                <span class="tech-tag">CSS</span>
-                                <span class="tech-tag">JavaScript</span>
-                                <span class="tech-tag">localStorage API</span>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <!-- ============================================================
-             CONTACT SECTION
-             ============================================================ -->
-        <section id="contact">
-            <div class="container">
-
-                <div class="section-header">
-                    <span class="section-badge">Get In Touch</span>
-                    <h2 class="section-title">Let's Connect</h2>
-                    <p class="section-desc">
-                        I'm currently seeking entry-level Data Analyst or Business Support roles.
-                        Feel free to reach out for opportunities or collaborations!
-                    </p>
-                </div>
-
-                <div class="contact-grid">
-
-                    <!-- Left side: contact details -->
-                    <div class="contact-info">
-
-                        <!-- Email -->
-                        <div class="contact-item">
-                            <div class="contact-icon">📧</div>
-                            <div>
-                                <h3>Email</h3>
-                                <a href="mailto:sa9449156@gmail.com">sa9449156@gmail.com</a>
-                            </div>
-                        </div>
-
-                        <!-- Phone -->
-                        <div class="contact-item">
-                            <div class="contact-icon">📱</div>
-                            <div>
-                                <h3>Phone</h3>
-                                <a href="tel:+917795384007">+91 7795384007</a>
-                            </div>
-                        </div>
-
-                        <!-- Location -->
-                        <div class="contact-item">
-                            <div class="contact-icon">📍</div>
-                            <div>
-                                <h3>Location</h3>
-                                <p>Bandi mote bangalore road, Bellary</p>
-                            </div>
-                        </div>
-
-                        <!-- GitHub and LinkedIn buttons -->
-                        <div class="social-links">
-
-                            <a href="https://github.com/ali123svg" target="_blank" class="social-btn" title="GitHub">
-                                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                                </svg>
-                            </a>
-
-                            <a href="https://www.linkedin.com/in/Sultan-ali-12494429a" target="_blank" class="social-btn" title="LinkedIn">
-                                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                                </svg>
-                            </a>
-
-                        </div>
-                    </div>
-
-                    <!-- Right side: Career goals card -->
-                    <div>
-                        <div class="skill-card">
-                            <h3 style="margin-bottom: 1.5rem;">Career Goals</h3>
-                            <ul class="skill-list">
-                                <li>Entry-Level Data Analyst</li>
-                                <li>Business Intelligence Analyst</li>
-                                <li>Data Visualization Specialist</li>
-                                <li>Business Support Analyst</li>
-                                <li>Power BI Developer</li>
-                                <li>Analytics & Reporting Specialist</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- ============================================================
-         FOOTER
-         ============================================================ -->
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 Sultan Ali. Crafted with passion for data and code.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ EDUCATION ═══════════════════ -->
+<div class="sec" id="education">
+  <div class="wrap">
+    <div class="sec-hdr">
+      <div class="eyebrow">Education</div>
+      <h2 class="sec-title">Academic Background</h2>
+    </div>
+
+    <div class="acc open" id="a-edu">
+      <div class="acc-hd" onclick="toggleAcc('a-edu')">
+        <div class="acc-ico">🎓</div>
+        <div class="acc-meta"><div class="acc-tag">Degree</div><div class="acc-ttl">Bachelor of Computer Applications</div></div>
+        <span class="acc-count">CGPA 7.51 · 2023</span>
+        <span class="acc-chev">▾</span>
+      </div>
+      <div class="acc-body">
+        <div class="edu-inner">
+          <div class="edu-pills">
+            <div class="edu-p">📍 Ballari, Karnataka</div>
+            <div class="edu-p">📅 2020 – 2023</div>
+            <div class="edu-p green">⭐ CGPA 7.51 / 10</div>
+          </div>
+          <div class="edu-txt">
+            <strong>SMT. Sarala Devi Satish Chandra Agarwal</strong><br>
+            Government First Grade College (Autonomous)<br><br>
+            Three-year BCA covering programming, database management, data structures, software engineering, and computer networks.
+          </div>
         </div>
-    </footer>
+      </div>
+    </div>
 
-    <!-- ============================================================
-         SCRIPT - Smooth scrolling when nav links are clicked
-         ============================================================ -->
-    <script>
+    <div class="acc open" id="a-cert">
+      <div class="acc-hd" onclick="toggleAcc('a-cert')">
+        <div class="acc-ico">📜</div>
+        <div class="acc-meta"><div class="acc-tag">Credentials</div><div class="acc-ttl">Certifications &amp; Online Internships</div></div>
+        <span class="acc-count">7 certifications</span>
+        <span class="acc-chev">▾</span>
+      </div>
+      <div class="acc-body">
+        <div style="padding-top:.85rem;">
+          <div class="forage-row">🌐 Online Internships via Forage</div>
+          <div class="cert-row fg">
+            <div class="clog tata">T</div>
+            <div>
+              <div class="cn">Data Visualisation: Empowering Business with Effective Insights <span class="cnew">New</span></div>
+              <div class="cm"><strong style="color:#0369a1;">TATA Group</strong> · Online Job Simulation · Apr 2026</div>
+              <div><span class="ctag">Framing Business Scenarios</span><span class="ctag">Data Visualisation</span><span class="ctag">Communicating Insights</span></div>
+            </div>
+          </div>
+          <div class="cert-row fg">
+            <div class="clog ba">BA</div>
+            <div>
+              <div class="cn">Data Science Job Simulation <span class="cnew">New</span></div>
+              <div class="cm"><strong style="color:#0369a1;">British Airways</strong> · Online Job Simulation · May 2026</div>
+              <div><span class="ctag">Lounge Eligibility Modelling</span><span class="ctag">Predicting Customer Behaviour</span></div>
+            </div>
+          </div>
+          <div class="cdiv"></div>
+          <div class="cert-row"><div class="clog ms">M</div><div><div class="cn">Excel Dashboard for Beginners</div><div class="cm">Microsoft &amp; Simplilearn · Dec 2025</div></div></div>
+          <div class="cert-row"><div class="clog ud">U</div><div><div class="cn">Certified Data Analyst Foundations</div><div class="cm">Udemy · Dec 2025</div></div></div>
+          <div class="cert-row"><div class="clog mi">MO</div><div><div class="cn">Microsoft Office Specialist (Excel &amp; Word)</div><div class="cm">MICE · 2024</div></div></div>
+          <div class="cert-row"><div class="clog ud">U</div><div><div class="cn">SQL Certification</div><div class="cm">Udemy · 2024</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-        // Select all links that start with "#" (anchor links)
-        document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+<!-- ═══════════════════ POWER BI ═══════════════════ -->
+<div class="sec alt" id="powerbi">
+  <div class="wrap">
+    <div class="sec-hdr"><div class="eyebrow">Data Analytics</div><h2 class="sec-title">Power BI Projects</h2></div>
+    <div class="acc open" id="a-pbi">
+      <div class="acc-hd" onclick="toggleAcc('a-pbi')">
+        <div class="acc-ico">📊</div>
+        <div class="acc-meta"><div class="acc-tag">Power BI</div><div class="acc-ttl">Dashboards &amp; Visual Reports</div></div>
+        <span class="acc-count">2 projects</span><span class="acc-chev">▾</span>
+      </div>
+      <div class="acc-body">
+        <div class="proj-grid">
+          <div class="proj-card"><div class="proj-bar"></div><div class="proj-inner">
+            <span class="p-tag">Power BI Dashboard <span class="nf" style="background:var(--blue);color:#fff;padding:1px 5px;border-radius:3px;font-size:.58rem;">New</span></span>
+            <h3>Online Retail Analysis</h3>
+            <p class="pdesc">Comprehensive Power BI report analysing online retail transactions to uncover revenue trends, customer behaviour, and product performance across countries and time.</p>
+            <ul class="ppts"><li>Cleaned and modelled raw transaction data with date intelligence using DAX</li><li>Tracked monthly revenue trends to identify seasonal patterns and growth</li><li>Identified top-performing countries and customers by total revenue</li><li>Analysed product demand to surface best-sellers and underperformers</li><li>Built interactive slicers for filtering by country, product, and time</li></ul>
+            <div class="chips"><span class="chip">Power BI</span><span class="chip">DAX</span><span class="chip">Data Modeling</span><span class="chip">Time Intelligence</span><span class="chip">Interactive Filters</span></div>
+          </div></div>
+          <div class="proj-card"><div class="proj-bar"></div><div class="proj-inner">
+            <span class="p-tag">Power BI Dashboard</span>
+            <h3>Sales Dashboard — Karnataka</h3>
+            <p class="pdesc">End-to-end sales dashboard tracking revenue, regional performance, and product-wise trends across Karnataka regions.</p>
+            <ul class="ppts"><li>Sales split: South Karnataka (44.71%) vs North Karnataka (55.29%)</li><li>Consumer segment 67.94%, Corporate 18.4%, Home Office 13.6%</li><li>Top sub-categories: Chairs, Machines, and Phones</li><li>Drill-down charts for sales, profit, discount, and city views</li><li>DAX calculated measures for dynamic KPI reporting</li></ul>
+            <div class="chips"><span class="chip">Power BI</span><span class="chip">DAX</span><span class="chip">Data Modeling</span><span class="chip">Interactive Filters</span></div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-            link.addEventListener('click', function(e) {
-                e.preventDefault(); // stop the default jump
+<!-- ═══════════════════ EXCEL ═══════════════════ -->
+<div class="sec" id="excel">
+  <div class="wrap">
+    <div class="sec-hdr"><div class="eyebrow">Data Analytics</div><h2 class="sec-title">Excel / Sheets Projects</h2></div>
+    <div class="acc open" id="a-xl">
+      <div class="acc-hd" onclick="toggleAcc('a-xl')">
+        <div class="acc-ico">📗</div>
+        <div class="acc-meta"><div class="acc-tag">Excel &amp; Sheets</div><div class="acc-ttl">Dashboards &amp; CRM Analytics</div></div>
+        <span class="acc-count">2 projects</span><span class="acc-chev">▾</span>
+      </div>
+      <div class="acc-body">
+        <div class="proj-grid">
+          <div class="proj-card"><div class="proj-bar gr"></div><div class="proj-inner">
+            <span class="p-tag gr">Google Sheets <span class="nf" style="background:var(--green);color:#fff;padding:1px 5px;border-radius:3px;font-size:.58rem;">New</span></span>
+            <h3>Mini CRM Sales Dashboard</h3>
+            <p class="pdesc">Business-oriented CRM dashboard using Google Sheets to simulate how companies manage leads, track pipelines, and measure revenue through KPIs.</p>
+            <ul class="ppts"><li>5 KPIs: Total Leads, Converted, Interested, Lost, Total Revenue</li><li>Pie Chart for lead stage distribution across the full pipeline</li><li>Column Chart comparing revenue across cities</li><li>Color-coded conditional formatting (Green/Yellow/Red status)</li><li>COUNTIF, SUMIF, COUNTA, SUM for automated KPI calculations</li></ul>
+            <div class="chips"><span class="chip">Google Sheets</span><span class="chip">Excel</span><span class="chip">COUNTIF/SUMIF</span><span class="chip">Conditional Formatting</span><span class="chip">KPI Dashboard</span></div>
+            <a href="https://github.com/ali123svg/mini-crm-sales-dashboard" target="_blank" class="plink">View on GitHub →</a>
+          </div></div>
+          <div class="proj-card"><div class="proj-bar gr"></div><div class="proj-inner">
+            <span class="p-tag gr">Excel Analytics</span>
+            <h3>Karnataka Store Sales Dashboard</h3>
+            <p class="pdesc">Analyzed 31,000+ rows of Karnataka store sales data to identify top categories, customer trends, and regional performance.</p>
+            <ul class="ppts"><li>2025 sales data — top categories and purchasing trends</li><li>Interactive dashboard: sales vs orders, men vs women</li><li>Top 10 states by contribution and channel performance</li><li>Age-gender demographic analysis for customer segments</li></ul>
+            <div class="chips"><span class="chip">Excel</span><span class="chip">Pivot Tables</span><span class="chip">Data Cleaning</span><span class="chip">Dashboard Design</span></div>
+            <a href="https://github.com/ali123svg/Karnataka-Sales-dash-board" target="_blank" class="plink">View on GitHub →</a>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-                // Find the target section
-                var target = document.querySelector(this.getAttribute('href'));
+<!-- ═══════════════════ SQL ═══════════════════ -->
+<div class="sec alt" id="sql">
+  <div class="wrap">
+    <div class="sec-hdr"><div class="eyebrow">Data Analytics</div><h2 class="sec-title">SQL Projects</h2></div>
+    <div class="acc open" id="a-sql">
+      <div class="acc-hd" onclick="toggleAcc('a-sql')">
+        <div class="acc-ico">🗄️</div>
+        <div class="acc-meta"><div class="acc-tag">MySQL</div><div class="acc-ttl">Database Design &amp; Analytics</div></div>
+        <span class="acc-count">2 projects</span><span class="acc-chev">▾</span>
+      </div>
+      <div class="acc-body">
+        <div class="proj-grid">
+          <div class="proj-card"><div class="proj-bar gy"></div><div class="proj-inner">
+            <span class="p-tag gy">SQL Analytics <span class="nf" style="background:var(--ink3);color:#fff;padding:1px 5px;border-radius:3px;font-size:.58rem;">New</span></span>
+            <h3>Sales Performance Analysis</h3>
+            <p class="pdesc">End-to-end SQL project on Karnataka retail — schema design to advanced analytics with customer segmentation, regional benchmarking, and executive reporting in 10 steps.</p>
+            <ul class="ppts"><li>Relational schema with Primary and Foreign Key constraints across 3 tables</li><li>Window Functions (OVER/PARTITION BY) for city-level revenue contribution</li><li>CTEs (WITH clauses) for modular RANK() logic per product category</li><li>CASE statements to segment customers into VIP and Standard tiers</li><li>Monthly trend analysis and executive summary with AOV</li></ul>
+            <div class="chips"><span class="chip">MySQL</span><span class="chip">Window Functions</span><span class="chip">CTEs</span><span class="chip">CASE Statements</span><span class="chip">Schema Design</span></div>
+            <a href="https://github.com/ali123svg/Sales-analysis-SQL" target="_blank" class="plink">View on GitHub →</a>
+          </div></div>
+          <div class="proj-card"><div class="proj-bar gy"></div><div class="proj-inner">
+            <span class="p-tag gy">SQL Analytics</span>
+            <h3>Sales Analysis Project</h3>
+            <p class="pdesc">Relational sales database design with MySQL to extract business insights across Karnataka regions.</p>
+            <ul class="ppts"><li>Designed Customers, Products, and Orders tables</li><li>Joins, Aggregations, Subqueries for regional analysis</li><li>Top 5 best-selling products and highest-spending customers</li><li>Year-end summary: revenue, units sold, average order value</li></ul>
+            <div class="chips"><span class="chip">MySQL</span><span class="chip">SQL Joins</span><span class="chip">Aggregations</span><span class="chip">Subqueries</span></div>
+            <a href="https://github.com/ali123svg/Sales-analysis-SQL" target="_blank" class="plink">View on GitHub →</a>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-                // Smoothly scroll to it
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
+<!-- ═══════════════════ DEV ═══════════════════ -->
+<div class="sec" id="development">
+  <div class="wrap">
+    <div class="sec-hdr"><div class="eyebrow">Development</div><h2 class="sec-title">Java &amp; Web Applications</h2></div>
+    <div class="acc" id="a-dev">
+      <div class="acc-hd" onclick="toggleAcc('a-dev')">
+        <div class="acc-ico">💻</div>
+        <div class="acc-meta"><div class="acc-tag">Java &amp; Web</div><div class="acc-ttl">Application Development</div></div>
+        <span class="acc-count">3 projects</span><span class="acc-chev">▾</span>
+      </div>
+      <div class="acc-body">
+        <div class="proj-grid">
+          <div class="proj-card"><div class="proj-bar gy"></div><div class="proj-inner">
+            <span class="p-tag gy">Java Application</span><h3>Employee Management System</h3>
+            <p class="pdesc">Console-based app to manage 100 employee records with full CRUD operations.</p>
+            <ul class="ppts"><li>OOP: inheritance, encapsulation, polymorphism</li><li>CRUD operations, salary calculation, department filtering</li><li>Search functionality for quick data retrieval</li></ul>
+            <div class="chips"><span class="chip">Java</span><span class="chip">OOP</span><span class="chip">File I/O</span><span class="chip">Eclipse</span></div>
+          </div></div>
+          <div class="proj-card"><div class="proj-bar gy"></div><div class="proj-inner">
+            <span class="p-tag gy">Java Application</span><h3>Pizza Billing System</h3>
+            <p class="pdesc">Console-based ordering system with tax computation and bill generation.</p>
+            <ul class="ppts"><li>Real-time price calculations and order management</li><li>Tax computation and total bill generation</li><li>OOP concepts for modular code</li></ul>
+            <div class="chips"><span class="chip">Java</span><span class="chip">OOP</span><span class="chip">Eclipse</span></div>
+          </div></div>
+          <div class="proj-card"><div class="proj-bar gy"></div><div class="proj-inner">
+            <span class="p-tag gy">Web Application</span><h3>Event Management System</h3>
+            <p class="pdesc">Dynamic SPA for creating and managing events with localStorage persistence.</p>
+            <ul class="ppts"><li>Event creation and deletion with localStorage persistence</li><li>Responsive UI with modern CSS and DOM manipulation</li></ul>
+            <div class="chips"><span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JavaScript</span><span class="chip">localStorage</span></div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-        });
+<!-- ═══════════════════ CONTACT ═══════════════════ -->
+<div class="sec alt" id="contact">
+  <div class="wrap">
+    <div class="sec-hdr">
+      <div class="eyebrow">Get In Touch</div>
+      <h2 class="sec-title">Let's Connect</h2>
+      <p class="sec-desc">Seeking entry-level Data Analyst or Business Support roles. Open to opportunities, collaborations, or just a conversation about data.</p>
+    </div>
+    <div class="contact-grid">
+      <div>
+        <div class="ci"><div class="ci-ic">📧</div><div><h4>Email</h4><a href="mailto:sa9449156@gmail.com">sa9449156@gmail.com</a></div></div>
+        <div class="ci"><div class="ci-ic">📱</div><div><h4>Phone</h4><a href="tel:+917795384007">+91 7795384007</a></div></div>
+        <div class="ci"><div class="ci-ic">📍</div><div><h4>Location</h4><p>Bandi mote Bangalore Road, Ballari</p></div></div>
+        <div class="soc-row">
+          <a href="https://github.com/ali123svg" target="_blank" class="soc" title="GitHub">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/Sultan-ali-12494429a" target="_blank" class="soc" title="LinkedIn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="goals-card">
+        <h3>Career Goals</h3>
+        <ul class="sk-ul">
+          <li>Entry-Level Data Analyst</li>
+          <li>Business Intelligence Analyst</li>
+          <li>Data Visualization Specialist</li>
+          <li>Business Support Analyst</li>
+          <li>Power BI Developer</li>
+          <li>Analytics &amp; Reporting Specialist</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
 
-    </script>
+</main>
 
+<footer>
+  <div class="wrap">
+    <p>&copy; 2026 <span class="blue">Sultan Ali</span> &nbsp;·&nbsp; Data Analyst Portfolio &nbsp;·&nbsp; Built with passion for data.</p>
+  </div>
+</footer>
+
+<!-- BACK TO TOP -->
+<button id="back-top" onclick="scrollTop()" title="Back to top (Home)">↑</button>
+
+<script>
+/* ─── SEARCH DATA ─── */
+const SD=[
+  {t:'Online Retail Analysis',c:'Power BI',s:'DAX · Time Intelligence · Interactive Filters',h:'#powerbi',a:'a-pbi',i:'📊'},
+  {t:'Sales Dashboard — Karnataka',c:'Power BI',s:'DAX · Data Modeling',h:'#powerbi',a:'a-pbi',i:'📊'},
+  {t:'Mini CRM Sales Dashboard',c:'Excel/Sheets',s:'Google Sheets · COUNTIF · KPI Dashboard',h:'#excel',a:'a-xl',i:'📗'},
+  {t:'Karnataka Store Sales Dashboard',c:'Excel',s:'Pivot Tables · Dashboard Design',h:'#excel',a:'a-xl',i:'📗'},
+  {t:'Sales Performance Analysis',c:'SQL',s:'Window Functions · CTEs · Schema Design',h:'#sql',a:'a-sql',i:'🗄️'},
+  {t:'Sales Analysis Project',c:'SQL',s:'MySQL · Joins · Aggregations',h:'#sql',a:'a-sql',i:'🗄️'},
+  {t:'Employee Management System',c:'Java',s:'OOP · CRUD · File I/O',h:'#development',a:'a-dev',i:'💻'},
+  {t:'Pizza Billing System',c:'Java',s:'OOP · Eclipse',h:'#development',a:'a-dev',i:'💻'},
+  {t:'Event Management System',c:'Web',s:'HTML · CSS · JavaScript',h:'#development',a:'a-dev',i:'💻'},
+  {t:'Data Analysis Tools',c:'Skills',s:'Power BI · SQL · Excel · Google Sheets',h:'#skills',a:'a-sk',i:'⚙️'},
+  {t:'TATA Group Internship',c:'Certification',s:'Forage · Data Visualisation · Apr 2026',h:'#education',a:'a-cert',i:'📜'},
+  {t:'British Airways Internship',c:'Certification',s:'Forage · Data Science · May 2026',h:'#education',a:'a-cert',i:'📜'},
+  {t:'SQL Certification',c:'Certification',s:'Udemy · 2024',h:'#education',a:'a-cert',i:'📜'},
+  {t:'BCA Degree',c:'Education',s:'CGPA 7.51 · 2023 · Ballari',h:'#education',a:'a-edu',i:'🎓'},
+];
+
+function doSearch(q){
+  const drop=document.getElementById('searchDrop');
+  if(!q.trim()){drop.classList.remove('on');return;}
+  const ql=q.toLowerCase();
+  const res=SD.filter(i=>i.t.toLowerCase().includes(ql)||i.s.toLowerCase().includes(ql)||i.c.toLowerCase().includes(ql));
+  if(!res.length){
+    drop.innerHTML='<div class="sd-empty">No results for "'+q+'"</div>';
+  } else {
+    drop.innerHTML=res.slice(0,7).map(i=>
+      `<div class="sd-item" onclick="goSearch('${i.h}','${i.a}')">
+        <span class="sd-icon">${i.i}</span>
+        <span class="sd-title">${i.t}</span>
+        <span class="sd-cat">${i.c}</span>
+      </div>`
+    ).join('');
+  }
+  drop.classList.add('on');
+}
+
+function goSearch(h,a){
+  hideSearch();
+  openAcc(a);
+  setTimeout(()=>{
+    const el=document.querySelector(h);
+    if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+  },80);
+}
+
+function hideSearch(){
+  document.getElementById('searchDrop').classList.remove('on');
+  document.getElementById('searchInput').value='';
+}
+
+/* ─── ACCORDION ─── */
+function toggleAcc(id){document.getElementById(id).classList.toggle('open');}
+function openAcc(id){document.getElementById(id).classList.add('open');}
+
+function expandAll(){
+  document.querySelectorAll('.acc').forEach(a=>a.classList.add('open'));
+  showToast('All sections expanded');
+}
+function collapseAll(){
+  document.querySelectorAll('.acc').forEach(a=>a.classList.remove('open'));
+  showToast('All sections collapsed');
+}
+
+/* ─── THREE-DOT MENU ─── */
+function toggleDotsMenu(){
+  const m=document.getElementById('dotsMenu');
+  m.classList.toggle('on');
+  document.getElementById('dotsBtn').classList.toggle('active');
+}
+function closeDotsMenu(){
+  document.getElementById('dotsMenu').classList.remove('on');
+  document.getElementById('dotsBtn').classList.remove('active');
+}
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.dots-menu-wrap')) closeDotsMenu();
+});
+
+/* ─── SIDEBAR (hamburger) ─── */
+function toggleSB(){
+  document.getElementById('sidebar').classList.toggle('on');
+  document.getElementById('sb-overlay').classList.toggle('on');
+  document.getElementById('hamburger').classList.toggle('active');
+}
+function closeSB(){
+  document.getElementById('sidebar').classList.remove('on');
+  document.getElementById('sb-overlay').classList.remove('on');
+  document.getElementById('hamburger').classList.remove('active');
+}
+
+/* ─── THEME ─── */
+var isDark=false;
+function toggleTheme(){
+  isDark=!isDark;
+  document.documentElement.setAttribute('data-theme',isDark?'dark':'light');
+  document.getElementById('theme-sw').classList.toggle('on',isDark);
+  localStorage.setItem('sa-theme',isDark?'dark':'light');
+  showToast(isDark?'Dark mode on':'Light mode on');
+}
+(function(){
+  if(localStorage.getItem('sa-theme')==='dark'){
+    isDark=true;
+    document.documentElement.setAttribute('data-theme','dark');
+    document.addEventListener('DOMContentLoaded',function(){
+      var sw=document.getElementById('theme-sw');
+      if(sw) sw.classList.add('on');
+    });
+  }
+})();
+
+/* ─── ZOOM ─── */
+var zoomLevel=100;
+function changeZoom(delta){
+  zoomLevel=Math.min(150,Math.max(70,zoomLevel+delta));
+  applyZoom();
+}
+function resetZoom(){zoomLevel=100;applyZoom();showToast('Zoom reset to 100%');}
+function applyZoom(){
+  document.body.style.zoom=zoomLevel+'%';
+  document.getElementById('zoom-val').textContent=zoomLevel+'%';
+}
+
+/* ─── SCROLL PROGRESS + BACK TO TOP + ACTIVE NAV ─── */
+window.addEventListener('scroll',function(){
+  const st=window.scrollY;
+  const total=document.documentElement.scrollHeight-window.innerHeight;
+  document.getElementById('progress-bar').style.width=(st/total*100)+'%';
+  document.getElementById('back-top').classList.toggle('show',st>400);
+
+  // active nav highlight
+  const secs=['skills','education','powerbi','excel','sql','development','contact'];
+  let cur='';
+  secs.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el && el.getBoundingClientRect().top<=80) cur=id;
+  });
+  document.querySelectorAll('.nav-links a').forEach(a=>{
+    a.classList.toggle('active',a.getAttribute('href')==='#'+cur);
+  });
+});
+
+function scrollTop(){window.scrollTo({top:0,behavior:'smooth'});}
+
+/* ─── TOAST ─── */
+var toastTimer;
+function showToast(msg){
+  clearTimeout(toastTimer);
+  document.getElementById('toast-msg').textContent=msg;
+  document.getElementById('toast').classList.add('show');
+  toastTimer=setTimeout(()=>document.getElementById('toast').classList.remove('show'),2500);
+}
+
+/* ─── MODAL (shortcuts) ─── */
+function openModal(){document.getElementById('shortcutsModal').classList.add('on');}
+function closeModal(){document.getElementById('shortcutsModal').classList.remove('on');}
+document.getElementById('shortcutsModal').addEventListener('click',function(e){
+  if(e.target===this) closeModal();
+});
+
+/* ─── ACTIONS ─── */
+function printPage(){closeDotsMenu();window.print();}
+
+function sharePortfolio(){
+  var url=window.location.href;
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(url).then(()=>showToast('Link copied to clipboard!'));
+  } else {
+    showToast('Copy from address bar');
+  }
+  closeDotsMenu();
+}
+
+function copyEmail(){
+  var email='sa9449156@gmail.com';
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(email).then(()=>showToast('Email copied: '+email));
+  }
+  closeDotsMenu();
+}
+
+function downloadVCard(){
+  var vc=[
+    'BEGIN:VCARD','VERSION:3.0',
+    'FN:Sultan Ali','N:Ali;Sultan;;;',
+    'TITLE:Data Analyst',
+    'EMAIL:sa9449156@gmail.com',
+    'TEL:+917795384007',
+    'ADR:;;Bandi mote Bangalore Road;Ballari;Karnataka;;India',
+    'URL:https://github.com/ali123svg',
+    'END:VCARD'
+  ].join('\n');
+  var blob=new Blob([vc],{type:'text/vcard'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='Sultan_Ali.vcf';
+  a.click();
+  showToast('Contact card downloaded!');
+  closeDotsMenu();
+}
+
+function showAbout(){
+  showToast('Sultan Ali · Data Analyst Portfolio · 2026');
+  closeDotsMenu();
+}
+
+/* ─── KEYBOARD SHORTCUTS ─── */
+document.addEventListener('keydown',function(e){
+  const tag=document.activeElement.tagName;
+  const typing=(tag==='INPUT'||tag==='TEXTAREA');
+
+  if(e.key==='Escape'){closeModal();closeDotsMenu();closeSB();hideSearch();}
+  if(e.key==='Home'&&!typing){e.preventDefault();scrollTop();}
+  if(e.ctrlKey||e.metaKey){
+    if(e.key==='k'){e.preventDefault();document.getElementById('searchInput').focus();}
+    if(e.key==='d'&&!typing){e.preventDefault();toggleTheme();}
+    if(e.key==='b'&&!typing){e.preventDefault();toggleSB();}
+    if(e.key==='='||e.key==='+'){e.preventDefault();changeZoom(10);showToast('Zoom: '+zoomLevel+'%');}
+    if(e.key==='-'){e.preventDefault();changeZoom(-10);showToast('Zoom: '+zoomLevel+'%');}
+    if(e.key==='0'){e.preventDefault();resetZoom();}
+  }
+  if(e.key==='?'&&!typing){openModal();}
+});
+
+/* ─── SMOOTH SCROLL ─── */
+document.querySelectorAll('a[href^="#"]').forEach(function(a){
+  a.addEventListener('click',function(e){
+    const hr=this.getAttribute('href');
+    if(hr==='#') return;
+    e.preventDefault();
+    const t=document.querySelector(hr);
+    if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+</script>
 </body>
 </html>
