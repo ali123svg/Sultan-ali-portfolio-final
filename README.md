@@ -2,7 +2,7 @@
 
 A personal portfolio website built with pure HTML and CSS to showcase my data analytics projects, skills, certifications, and contact information.
 
-🔗 **Live Site:** [https://ali123svg.github.io/Sultan-ali-portfolio-final](https://ali123svg.github.io/Sultan-ali-portfolio-final)
+🔗 **Live Site:**https://github.com/ali123svg/Sultan-ali-portfolio-final/blob/main/index.html
 
 ---
 
