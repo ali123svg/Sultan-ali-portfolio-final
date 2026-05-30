@@ -193,54 +193,7 @@ body{
 }
 .logo-name em{color:var(--blue);font-style:normal;}
 
-/* search */
-.nav-search{
-  flex:1;max-width:320px;position:relative;margin-left:.5rem;
-}
-.nav-search input{
-  width:100%;background:var(--surface2);border:1px solid var(--border);
-  border-radius:var(--r3);padding:.42rem .9rem .42rem 2.3rem;
-  font-size:.82rem;color:var(--ink);font-family:'Sora',sans-serif;
-  outline:none;transition:all .2s;
-}
-.nav-search input::placeholder{color:var(--ink4);}
-.nav-search input:focus{
-  background:var(--surface);border-color:var(--blue);
-  box-shadow:0 0 0 3px var(--blue-bg);
-}
-.nav-search .si{
-  position:absolute;left:.78rem;top:50%;transform:translateY(-50%);
-  font-size:.82rem;pointer-events:none;color:var(--ink4);
-}
-.nav-search .sk{
-  position:absolute;right:.75rem;top:50%;transform:translateY(-50%);
-  font-size:.68rem;font-family:'JetBrains Mono',monospace;
-  color:var(--ink4);background:var(--surface3);border:1px solid var(--border);
-  border-radius:4px;padding:.1rem .4rem;pointer-events:none;
-}
-.search-drop{
-  display:none;position:absolute;top:calc(100% + 6px);left:0;right:0;
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:var(--r);box-shadow:var(--shadow3);z-index:600;
-  max-height:280px;overflow-y:auto;
-}
-.search-drop.on{display:block;}
-.sd-item{
-  display:flex;align-items:center;gap:.65rem;
-  padding:.6rem 1rem;font-size:.82rem;cursor:pointer;
-  color:var(--ink2);border-bottom:1px solid var(--border);
-  transition:background .15s;
-}
-.sd-item:last-child{border-bottom:none;}
-.sd-item:hover{background:var(--blue-bg);color:var(--blue);}
-.sd-icon{font-size:.95rem;flex-shrink:0;}
-.sd-title{font-weight:600;flex:1;}
-.sd-cat{
-  font-size:.67rem;font-weight:700;padding:1px 7px;
-  background:var(--blue-bg);border:1px solid var(--blue-bdr);
-  border-radius:4px;color:var(--blue);flex-shrink:0;
-}
-.sd-empty{padding:1rem;font-size:.82rem;color:var(--ink4);text-align:center;}
+
 
 /* nav links */
 .nav-links{display:flex;gap:.1rem;list-style:none;margin-left:auto;}
@@ -777,6 +730,8 @@ footer .blue{color:var(--blue);font-weight:600;}
   .sk-grid{grid-template-columns:1fr;}
   .nav-search{display:none;}
 }
+
+
 </style>
 </head>
 <body>
@@ -795,7 +750,6 @@ footer .blue{color:var(--blue);font-weight:600;}
       <button class="modal-close" onclick="closeModal()">✕</button>
     </div>
     <div class="modal-body">
-      <div class="shortcut-row"><span class="shortcut-desc">Open search</span><div class="shortcut-keys"><span class="kbd">Ctrl</span><span class="kbd">K</span></div></div>
       <div class="shortcut-row"><span class="shortcut-desc">Toggle dark mode</span><div class="shortcut-keys"><span class="kbd">Ctrl</span><span class="kbd">D</span></div></div>
       <div class="shortcut-row"><span class="shortcut-desc">Open sidebar guide</span><div class="shortcut-keys"><span class="kbd">Ctrl</span><span class="kbd">B</span></div></div>
       <div class="shortcut-row"><span class="shortcut-desc">Print / Save as PDF</span><div class="shortcut-keys"><span class="kbd">Ctrl</span><span class="kbd">P</span></div></div>
@@ -866,16 +820,7 @@ footer .blue{color:var(--blue);font-weight:600;}
       <div class="logo-name">Sultan <em>Ali</em></div>
     </div>
 
-    <!-- Search -->
-    <div class="nav-search">
-      <span class="si">🔍</span>
-      <input type="text" id="searchInput" placeholder="Search…"
-        oninput="doSearch(this.value)"
-        onblur="setTimeout(hideSearch,200)"
-        onfocus="if(this.value)doSearch(this.value)">
-      <span class="sk">⌘K</span>
-      <div class="search-drop" id="searchDrop"></div>
-    </div>
+
 
     <!-- Nav links -->
     <ul class="nav-links">
@@ -1195,6 +1140,7 @@ footer .blue{color:var(--blue);font-weight:600;}
 <div class="sec alt" id="sql">
   <div class="wrap">
     <div class="sec-hdr"><div class="eyebrow">Data Analytics</div><h2 class="sec-title">SQL Projects</h2></div>
+
     <div class="acc open" id="a-sql">
       <div class="acc-hd" onclick="toggleAcc('a-sql')">
         <div class="acc-ico">🗄️</div>
@@ -1203,22 +1149,56 @@ footer .blue{color:var(--blue);font-weight:600;}
       </div>
       <div class="acc-body">
         <div class="proj-grid">
-          <div class="proj-card"><div class="proj-bar gy"></div><div class="proj-inner">
-            <span class="p-tag gy">SQL Analytics <span class="nf" style="background:var(--ink3);color:#fff;padding:1px 5px;border-radius:3px;font-size:.58rem;">New</span></span>
-            <h3>Sales Performance Analysis</h3>
-            <p class="pdesc">End-to-end SQL project on Karnataka retail — schema design to advanced analytics with customer segmentation, regional benchmarking, and executive reporting in 10 steps.</p>
-            <ul class="ppts"><li>Relational schema with Primary and Foreign Key constraints across 3 tables</li><li>Window Functions (OVER/PARTITION BY) for city-level revenue contribution</li><li>CTEs (WITH clauses) for modular RANK() logic per product category</li><li>CASE statements to segment customers into VIP and Standard tiers</li><li>Monthly trend analysis and executive summary with AOV</li></ul>
-            <div class="chips"><span class="chip">MySQL</span><span class="chip">Window Functions</span><span class="chip">CTEs</span><span class="chip">CASE Statements</span><span class="chip">Schema Design</span></div>
-            <a href="https://github.com/ali123svg/Sales-analysis-SQL" target="_blank" class="plink">View on GitHub →</a>
-          </div></div>
-          <div class="proj-card"><div class="proj-bar gy"></div><div class="proj-inner">
-            <span class="p-tag gy">SQL Analytics</span>
-            <h3>Sales Analysis Project</h3>
-            <p class="pdesc">Relational sales database design with MySQL to extract business insights across Karnataka regions.</p>
-            <ul class="ppts"><li>Designed Customers, Products, and Orders tables</li><li>Joins, Aggregations, Subqueries for regional analysis</li><li>Top 5 best-selling products and highest-spending customers</li><li>Year-end summary: revenue, units sold, average order value</li></ul>
-            <div class="chips"><span class="chip">MySQL</span><span class="chip">SQL Joins</span><span class="chip">Aggregations</span><span class="chip">Subqueries</span></div>
-            <a href="https://github.com/ali123svg/Sales-analysis-SQL" target="_blank" class="plink">View on GitHub →</a>
-          </div></div>
+
+          <div class="proj-card">
+            <div class="proj-bar gy"></div>
+            <div class="proj-inner">
+              <span class="p-tag gy">SQL Analytics <span class="nf" style="background:var(--ink3);color:#fff;padding:1px 5px;border-radius:3px;font-size:.58rem;">New</span></span>
+              <h3>Sales Performance Analysis</h3>
+              <p class="pdesc">End-to-end SQL project analysing retail sales across Karnataka regions — from database schema design and data ingestion to advanced analytics including customer segmentation, regional benchmarking, and executive reporting in a structured 10-step workflow.</p>
+              <ul class="ppts">
+                <li>Designed relational schema with Primary and Foreign Key constraints across Customers, Products, and Orders tables</li>
+                <li>Used Window Functions (OVER / PARTITION BY) to calculate each city's % contribution to regional revenue</li>
+                <li>Applied CTEs (WITH clauses) for clean modular ranking logic to find the #1 product per category using RANK()</li>
+                <li>Implemented CASE statements to segment customers into VIP and Standard tiers based on total spend</li>
+                <li>Analysed monthly sales trends to identify seasonal peaks using time-series aggregation</li>
+                <li>Produced an executive summary with total revenue growth and average order value</li>
+              </ul>
+              <div class="chips">
+                <span class="chip">MySQL</span>
+                <span class="chip">Window Functions</span>
+                <span class="chip">CTEs</span>
+                <span class="chip">CASE Statements</span>
+                <span class="chip">Customer Segmentation</span>
+                <span class="chip">Schema Design</span>
+              </div>
+              <a href="https://github.com/ali123svg/Sales-analysis-SQL" target="_blank" class="plink">View on GitHub →</a>
+            </div>
+          </div>
+
+          <div class="proj-card">
+            <div class="proj-bar gy"></div>
+            <div class="proj-inner">
+              <span class="p-tag gy">SQL Analytics</span>
+              <h3>Sales Analysis Project</h3>
+              <p class="pdesc">Designed and queried a relational sales database using MySQL to extract business insights on revenue, customer behaviour, and product performance across Karnataka regions.</p>
+              <ul class="ppts">
+                <li>Designed relational database with Customers, Products, and Orders tables</li>
+                <li>Wrote queries using Joins, Aggregations, and Subqueries for regional analysis</li>
+                <li>Identified top 5 best-selling products and highest spending customers</li>
+                <li>Analyzed sales by gender, city, and discount type for business insights</li>
+                <li>Generated year-end summary: total revenue, units sold, average order value</li>
+              </ul>
+              <div class="chips">
+                <span class="chip">MySQL</span>
+                <span class="chip">SQL Joins</span>
+                <span class="chip">Aggregations</span>
+                <span class="chip">Subqueries</span>
+              </div>
+              <a href="https://github.com/ali123svg/Sales-analysis-SQL" target="_blank" class="plink">View on GitHub →</a>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -1310,56 +1290,7 @@ footer .blue{color:var(--blue);font-weight:600;}
 <button id="back-top" onclick="scrollTop()" title="Back to top (Home)">↑</button>
 
 <script>
-/* ─── SEARCH DATA ─── */
-const SD=[
-  {t:'Online Retail Analysis',c:'Power BI',s:'DAX · Time Intelligence · Interactive Filters',h:'#powerbi',a:'a-pbi',i:'📊'},
-  {t:'Sales Dashboard — Karnataka',c:'Power BI',s:'DAX · Data Modeling',h:'#powerbi',a:'a-pbi',i:'📊'},
-  {t:'Mini CRM Sales Dashboard',c:'Excel/Sheets',s:'Google Sheets · COUNTIF · KPI Dashboard',h:'#excel',a:'a-xl',i:'📗'},
-  {t:'Karnataka Store Sales Dashboard',c:'Excel',s:'Pivot Tables · Dashboard Design',h:'#excel',a:'a-xl',i:'📗'},
-  {t:'Sales Performance Analysis',c:'SQL',s:'Window Functions · CTEs · Schema Design',h:'#sql',a:'a-sql',i:'🗄️'},
-  {t:'Sales Analysis Project',c:'SQL',s:'MySQL · Joins · Aggregations',h:'#sql',a:'a-sql',i:'🗄️'},
-  {t:'Employee Management System',c:'Java',s:'OOP · CRUD · File I/O',h:'#development',a:'a-dev',i:'💻'},
-  {t:'Pizza Billing System',c:'Java',s:'OOP · Eclipse',h:'#development',a:'a-dev',i:'💻'},
-  {t:'Event Management System',c:'Web',s:'HTML · CSS · JavaScript',h:'#development',a:'a-dev',i:'💻'},
-  {t:'Data Analysis Tools',c:'Skills',s:'Power BI · SQL · Excel · Google Sheets',h:'#skills',a:'a-sk',i:'⚙️'},
-  {t:'TATA Group Internship',c:'Certification',s:'Forage · Data Visualisation · Apr 2026',h:'#education',a:'a-cert',i:'📜'},
-  {t:'British Airways Internship',c:'Certification',s:'Forage · Data Science · May 2026',h:'#education',a:'a-cert',i:'📜'},
-  {t:'SQL Certification',c:'Certification',s:'Udemy · 2024',h:'#education',a:'a-cert',i:'📜'},
-  {t:'BCA Degree',c:'Education',s:'CGPA 7.51 · 2023 · Ballari',h:'#education',a:'a-edu',i:'🎓'},
-];
 
-function doSearch(q){
-  const drop=document.getElementById('searchDrop');
-  if(!q.trim()){drop.classList.remove('on');return;}
-  const ql=q.toLowerCase();
-  const res=SD.filter(i=>i.t.toLowerCase().includes(ql)||i.s.toLowerCase().includes(ql)||i.c.toLowerCase().includes(ql));
-  if(!res.length){
-    drop.innerHTML='<div class="sd-empty">No results for "'+q+'"</div>';
-  } else {
-    drop.innerHTML=res.slice(0,7).map(i=>
-      `<div class="sd-item" onclick="goSearch('${i.h}','${i.a}')">
-        <span class="sd-icon">${i.i}</span>
-        <span class="sd-title">${i.t}</span>
-        <span class="sd-cat">${i.c}</span>
-      </div>`
-    ).join('');
-  }
-  drop.classList.add('on');
-}
-
-function goSearch(h,a){
-  hideSearch();
-  openAcc(a);
-  setTimeout(()=>{
-    const el=document.querySelector(h);
-    if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
-  },80);
-}
-
-function hideSearch(){
-  document.getElementById('searchDrop').classList.remove('on');
-  document.getElementById('searchInput').value='';
-}
 
 /* ─── ACCORDION ─── */
 function toggleAcc(id){document.getElementById(id).classList.toggle('open');}
@@ -1523,7 +1454,6 @@ document.addEventListener('keydown',function(e){
   if(e.key==='Escape'){closeModal();closeDotsMenu();closeSB();hideSearch();}
   if(e.key==='Home'&&!typing){e.preventDefault();scrollTop();}
   if(e.ctrlKey||e.metaKey){
-    if(e.key==='k'){e.preventDefault();document.getElementById('searchInput').focus();}
     if(e.key==='d'&&!typing){e.preventDefault();toggleTheme();}
     if(e.key==='b'&&!typing){e.preventDefault();toggleSB();}
     if(e.key==='='||e.key==='+'){e.preventDefault();changeZoom(10);showToast('Zoom: '+zoomLevel+'%');}
