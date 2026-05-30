@@ -2,7 +2,7 @@
 
 A personal portfolio website built with pure HTML and CSS to showcase my data analytics projects, skills, certifications, and contact information.
 
-file:///C:/Users/LENOVO/Downloads/sultan_ali_portfolio_pro_1.html
+C:/Users/LENOVO/Downloads/sultan_ali_portfolio_pro_1.html
 
 ---
 
