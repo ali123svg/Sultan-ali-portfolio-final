@@ -1,8 +1,7 @@
 # 🌐 Sultan Ali — Data Analyst Portfolio
 
 A personal portfolio website built with pure HTML and CSS to showcase my data analytics projects, skills, certifications, and contact information.
-
-http://127.0.0.1:5500/index.html
+https://ali123svg.github.io/Sultan-ali-portfolio-final/?utm_source=chatgpt.com
 
 ---
 
