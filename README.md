@@ -2,7 +2,7 @@
 
 A personal portfolio website showcasing my data analytics projects, technical skills, certifications, and professional background, with a focus on turning data into clear and actionable insights.
 
-🔗 **Live Portfolio:** http://127.0.0.1:5500/Sultan-ali-portfolio-final-main/index.html
+🔗 **Live Portfolio:**https://ali123svg.github.io/Sultan-ali-portfolio-final/?utm_source=chatgpt.com
 
 ---
 
